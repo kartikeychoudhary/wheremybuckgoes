@@ -1,0 +1,46 @@
+logging:
+  file:
+    name: application.log
+server:
+  port: 5500
+
+spring:
+  application.name: wheremybuckgoes
+  datasource:
+    url: ${url}
+    username: ENC(${SQL_USER})
+    password: ENC(${SQL_PASSWORD})
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        show_sql: true
+        format_sql: true
+gotify:
+  url: ENC(${GOTIFY_URL})
+  api: ENC(${GOTIFY_KEY})
+
+genai:
+  enabled: true
+  provider: gemini
+  restrictions:
+    maxRequestInQueue: 10
+    maxRequestInOneMinute: 5
+    maxRequestInOneHour: 50
+    maxRequestInOneDay: 100
+  gemini:
+    API: ENC(${GEMINI_API})
+    endPoint: https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=
+
+application:
+  register: true
+  security:
+    jwt:
+      prefix: Bearer
+      secret-key: ENC(${SECRET})
+      expiration: 86400000 # a day
+      refresh-token:
+        expiration: 604800000 # 7 days
