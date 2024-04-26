@@ -20,7 +20,7 @@ spring:
         show_sql: true
         format_sql: true
 gotify:
-  url: ENC(${GOTIFY_URL})
+  url: ${GOTIFY_URL}
   api: ENC(${GOTIFY_KEY})
 
 genai:
