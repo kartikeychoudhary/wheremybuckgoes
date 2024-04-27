@@ -7,9 +7,9 @@ server:
 spring:
   application.name: wheremybuckgoes
   datasource:
-    url: ${url}
-    username: ENC(${SQL_USER})
-    password: ENC(${SQL_PASSWORD})
+    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_DATABASE}
+    username: ENC(${DB_USER})
+    password: ENC(${DB_PASSWORD})
   jpa:
     database-platform: org.hibernate.dialect.MySQLDialect
     hibernate:
@@ -20,7 +20,7 @@ spring:
         show_sql: true
         format_sql: true
 gotify:
-  url: ${GOTIFY_URL}
+  url: https://${GOTIFY_URL}/message?token=
   api: ENC(${GOTIFY_KEY})
 
 genai:
