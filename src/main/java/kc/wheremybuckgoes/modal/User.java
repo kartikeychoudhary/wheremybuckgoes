@@ -3,6 +3,7 @@ package kc.wheremybuckgoes.modal;
 
 import jakarta.persistence.*;
 import kc.wheremybuckgoes.constants.ApplicationConstant.Role;
+import kc.wheremybuckgoes.dto.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -89,5 +90,14 @@ public class User implements UserDetails, Serializable {
     public User maskCredentials(){
         this.password = "MASKED";
         return this;
+    }
+
+    public UserDTO convertToDTO(){
+        return UserDTO.builder()
+                .email(email)
+                .firstname(firstname)
+                .lastname(lastname)
+                .profilePicURL(profilePicURL)
+                .build();
     }
 }

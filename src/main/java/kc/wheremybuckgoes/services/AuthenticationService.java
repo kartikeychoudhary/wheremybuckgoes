@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -58,7 +59,7 @@ public class AuthenticationService {
         var jwtToken = jwtService.generateToken(new HashMap<>(), user);
         var refreshToken = jwtService.generateRefreshToken(user);
         saveUserToken(savedUser, jwtToken);
-        return AuthenticationResponse.builder().accessToken(jwtToken).refreshToken(refreshToken).code(HttpStatus.OK).build();
+        return AuthenticationResponse.builder().accessToken(jwtToken).refreshToken(refreshToken).user(user.convertToDTO()).code(HttpStatus.OK).build();
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
@@ -74,7 +75,7 @@ public class AuthenticationService {
         var refreshToken = jwtService.generateRefreshToken(user);
         revokeAllUserTokens(user);
         saveUserToken(user, jwtToken);
-        return AuthenticationResponse.builder().accessToken(jwtToken).refreshToken(refreshToken).code(HttpStatus.OK).build();
+        return AuthenticationResponse.builder().accessToken(jwtToken).refreshToken(refreshToken).user(user.convertToDTO()).code(HttpStatus.OK).build();
     }
 
     private void saveUserToken(User user, String jwtToken) {
@@ -99,7 +100,7 @@ public class AuthenticationService {
         tokenRepository.saveAll(validUserTokens);
     }
 
-    public void refreshToken(
+    public ResponseEntity<AuthenticationResponse> refreshToken(
             HttpServletRequest request,
             HttpServletResponse response
     ) throws IOException {
@@ -107,7 +108,7 @@ public class AuthenticationService {
         final String refreshToken;
         final String userEmail;
         if (authHeader == null ||!authHeader.startsWith("Bearer ")) {
-            return;
+            return ResponseEntity.badRequest().build();
         }
         refreshToken = authHeader.substring(7);
         userEmail = jwtService.getUserEmailFromJWT(refreshToken);
@@ -122,8 +123,9 @@ public class AuthenticationService {
                         .accessToken(accessToken)
                         .refreshToken(refreshToken)
                         .build();
-                new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
+                return ResponseEntity.ok().body(authResponse);
             }
         }
+        return ResponseEntity.badRequest().build();
     }
 }

@@ -20,8 +20,10 @@ public class TransactionDTO {
     private String account;
     private String description;
     private String[] tags;
+    private boolean isSplit;
     private TransactionType type;
     private String transactionMode;
+    private String spendAt;
 
     public Transaction convert(User user){
         return Transaction
@@ -32,8 +34,10 @@ public class TransactionDTO {
                 .description(description)
                 .tags(tags)
                 .type(type)
+                .isSplit(isSplit)
                 .transactionMode(transactionMode)
                 .createdBy(user)
+                .spendAt(spendAt)
                 .createdDate(System.currentTimeMillis())
                 .build();
     }

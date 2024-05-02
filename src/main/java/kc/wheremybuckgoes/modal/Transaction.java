@@ -34,6 +34,8 @@ public class Transaction {
 
     private String transactionMode;
 
+    private boolean isSplit;
+
     private List<Long> splits;
 
     private List<String> splitsOwner;
@@ -45,6 +47,8 @@ public class Transaction {
 
     private Boolean isDeleted = false;
 
+    private String spendAt;
+
     public TransactionDTO convertToDTO() {
         return TransactionDTO
                 .builder()
@@ -54,13 +58,15 @@ public class Transaction {
                 .account(account)
                 .transactionMode(transactionMode)
                 .type(type)
+                .spendAt(spendAt)
+                .isSplit(isSplit)
                 .id(transactionId)
                 .build();
     }
 
     public static Transaction convertFromJSONObject(User user, JSONObject json){
         long amount = json.getLong("price");
-        String description= json.getString("spendAt");
+        String spendAt= json.getString("spendAt");
         String[] tags = new String[] {json.getString("mode")};
         TransactionType type = TransactionType.fromString(json.getString("type"));
         String transactionMode= json.getString("mode");
@@ -69,7 +75,7 @@ public class Transaction {
                 .builder()
                 .account(account)
                 .amount(amount)
-                .description(description)
+                .spendAt(spendAt)
                 .tags(tags)
                 .type(type)
                 .createdDate(System.currentTimeMillis())

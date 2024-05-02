@@ -1,0 +1,45 @@
+# Use a slim Java 11 base image
+FROM openjdk:21-slim
+
+# Set working directory
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y git
+
+# Clone the wheremybuckgoes project
+RUN git clone https://github.com/kartikeychoudhary/wheremybuckgoes.git
+
+# Change directory to the cloned project
+WORKDIR /app/wheremybuckgoes
+
+RUN git pull
+
+# Build the project using gradle
+RUN chmod +x ./gradlew
+RUN ./gradlew build
+
+# Change directory to the build output
+WORKDIR /app/wheremybuckgoes/build/libs
+
+# SETUP ENV
+# Encrypted values: GEMINI_API, GOTIFY_KEY, DB_PASSWORD, SECRET, DB_USER  use jasypt online encryptor to encrypt values (two way) | $PASSWORD is the salt to use.
+# Add values to these inputs ENV KEY VALUE
+ENV GEMINI_API
+ENV GOTIFY_KEY
+ENV GOTIFY_HOST
+ENV SECRET
+ENV DB_PASSWORD
+ENV DB_USER
+ENV DB_HOST
+ENV DB_PORT
+ENV DB_DATABASE
+ENV PASSWORD
+
+# Create the executable command
+CMD java -Djasypt.encryptor.password=$PASSWORD \
+         -Djasypt.encryptor.algorithm=PBEWithMD5AndDES \
+         -Djasypt.encryptor.iv-generator-classname=org.jasypt.iv.NoIvGenerator \
+         -jar wheremybuckgoes-0.0.1-SNAPSHOT.jar
+	
+# Build the image
+EXPOSE 5500 
