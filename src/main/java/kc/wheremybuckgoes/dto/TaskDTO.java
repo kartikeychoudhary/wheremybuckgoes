@@ -24,6 +24,7 @@ public class TaskDTO {
     private String request;
     private String response;
     private long executionTime;
+    private boolean isDeleted;
 
     public Task convert(User user){
         if(response == null){setResponse("");}
@@ -37,6 +38,7 @@ public class TaskDTO {
                 .user(user)
                 .request(request)
                 .response(response.getBytes())
+                .isDeleted(isDeleted)
                 .executionTime(executionTime).build();
     }
 }

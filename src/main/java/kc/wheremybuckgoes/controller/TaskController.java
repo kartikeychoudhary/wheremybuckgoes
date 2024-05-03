@@ -38,7 +38,16 @@ public class TaskController {
         log.info("TaskController: getAllTasks()");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-        GenericResponse<List<TaskDTO>> gr = mapToGenericResponse(HttpStatus.OK, taskService.getAllTask(user).stream().map(Task::convertToDTO).toList());
+        GenericResponse<List<TaskDTO>> gr = mapToGenericResponse(HttpStatus.OK, taskService.getAllTask(user).stream().filter(task -> !task.isDeleted()).map(Task::convertToDTO).toList());
+        return ResponseEntity.ok().body(gr);
+    }
+
+    @PostMapping()
+    public ResponseEntity<GenericResponse<TaskDTO>> addSaveTask(@RequestBody TaskDTO taskDTO) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        Task task = taskService.createOrUpdateTask(taskDTO.convert(user));
+        GenericResponse<TaskDTO> gr = mapToGenericResponse(HttpStatus.OK, task.convertToDTO());
         return ResponseEntity.ok().body(gr);
     }
 

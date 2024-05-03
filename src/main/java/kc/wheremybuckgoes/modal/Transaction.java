@@ -34,6 +34,8 @@ public class Transaction {
 
     private String transactionMode;
 
+    private String category;
+
     private boolean isSplit;
 
     private List<Long> splits;
@@ -45,7 +47,8 @@ public class Transaction {
 
     private long createdDate;
 
-    private Boolean isDeleted = false;
+    @Builder.Default
+    private boolean isDeleted = false;
 
     private String spendAt;
 
@@ -61,16 +64,20 @@ public class Transaction {
                 .spendAt(spendAt)
                 .isSplit(isSplit)
                 .id(transactionId)
+                .category(category)
+                .isDeleted(isDeleted)
                 .build();
     }
 
     public static Transaction convertFromJSONObject(User user, JSONObject json){
-        long amount = json.getLong("price");
-        String spendAt= json.getString("spendAt");
-        String[] tags = new String[] {json.getString("mode")};
-        TransactionType type = TransactionType.fromString(json.getString("type"));
-        String transactionMode= json.getString("mode");
-        String account = json.getString("account");
+        long amount = json.optLong("price", json.optLong("amount", 0));
+        String spendAt= json.optString("spendAt", "");
+        String[] tags = new String[] {json.optString("transactionMode", json.optString("mode","parsingError"))};
+        TransactionType type = TransactionType.fromString(json.optString("type", ""));
+        String transactionMode= json.optString("transactionMode", json.optString("mode","parsingError"));
+        String account = json.optString("account", "");
+        String category = json.optString("category");
+        String description = json.optString("description");
         return Transaction
                 .builder()
                 .account(account)
@@ -80,6 +87,8 @@ public class Transaction {
                 .type(type)
                 .createdDate(System.currentTimeMillis())
                 .createdBy(user)
+                .category(category)
+                .description(description)
                 .transactionMode(transactionMode).build();
     }
 }

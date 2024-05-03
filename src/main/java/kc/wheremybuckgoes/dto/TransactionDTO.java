@@ -24,6 +24,8 @@ public class TransactionDTO {
     private TransactionType type;
     private String transactionMode;
     private String spendAt;
+    private String category;
+    private boolean isDeleted;
 
     public Transaction convert(User user){
         return Transaction
@@ -38,6 +40,8 @@ public class TransactionDTO {
                 .transactionMode(transactionMode)
                 .createdBy(user)
                 .spendAt(spendAt)
+                .category(category)
+                .isDeleted(isDeleted)
                 .createdDate(System.currentTimeMillis())
                 .build();
     }

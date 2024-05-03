@@ -38,7 +38,7 @@ public class TransactionController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         List<Transaction> transactions = transactionService.getAllTransactionForUser(user.getEmail());
-        GenericResponse<List<TransactionDTO>> gr = mapToGenericResponse(HttpStatus.OK, transactions.stream().map(Transaction::convertToDTO).collect(Collectors.toList()));
+        GenericResponse<List<TransactionDTO>> gr = mapToGenericResponse(HttpStatus.OK, transactions.stream().filter(transaction -> !transaction.isDeleted()).map(Transaction::convertToDTO).collect(Collectors.toList()));
         return ResponseEntity.ok().body(gr);
     }
 
@@ -82,7 +82,7 @@ public class TransactionController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         if (transaction.getCreatedBy().getEmail().equals(user.getEmail())) {
-            transaction.setIsDeleted(true);
+            transaction.setDeleted(true);
             transaction = transactionService.updateTransaction(transaction);
             GenericResponse<TransactionDTO> gr = mapToGenericResponse(HttpStatus.OK, transaction.convertToDTO());
             return ResponseEntity.ok().body(gr);

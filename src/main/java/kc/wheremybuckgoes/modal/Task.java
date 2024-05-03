@@ -36,6 +36,9 @@ public class Task {
     private byte[] response;
     private long executionTime;
 
+    @Builder.Default
+    private boolean isDeleted = false;
+
     public TaskDTO convertToDTO(){
         if(response == null) {
             response = "".getBytes();
@@ -50,6 +53,7 @@ public class Task {
                 .request(request)
                 .response(new String(response))
                 .executionTime(executionTime)
+                .isDeleted(isDeleted)
                 .build();
     }
 }
