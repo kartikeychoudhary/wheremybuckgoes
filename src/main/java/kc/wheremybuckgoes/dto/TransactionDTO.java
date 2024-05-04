@@ -26,6 +26,7 @@ public class TransactionDTO {
     private String spendAt;
     private String category;
     private boolean isDeleted;
+    private long createdDate;
 
     public Transaction convert(User user){
         return Transaction
@@ -42,7 +43,7 @@ public class TransactionDTO {
                 .spendAt(spendAt)
                 .category(category)
                 .isDeleted(isDeleted)
-                .createdDate(System.currentTimeMillis())
+                .createdDate(createdDate)
                 .build();
     }
 

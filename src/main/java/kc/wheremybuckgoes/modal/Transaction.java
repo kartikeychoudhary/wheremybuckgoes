@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -66,18 +67,28 @@ public class Transaction {
                 .id(transactionId)
                 .category(category)
                 .isDeleted(isDeleted)
+                .createdDate(createdDate)
                 .build();
     }
 
     public static Transaction convertFromJSONObject(User user, JSONObject json){
         long amount = json.optLong("price", json.optLong("amount", 0));
-        String spendAt= json.optString("spendAt", "");
-        String[] tags = new String[] {json.optString("transactionMode", json.optString("mode","parsingError"))};
+        String spendAt = json.optString("spendAt", "");
+
+        String dateTag = "verify date";
+        if(json.has("tags")){
+            JSONArray temp = json.optJSONArray("tags", null);
+            if(temp != null && !temp.isEmpty()){
+                dateTag = json.getJSONArray("tags").getString(0);
+            }
+        }
+        String[] tags = new String[] { dateTag, json.optString("transactionMode", json.optString("mode","parsingError"))};
         TransactionType type = TransactionType.fromString(json.optString("type", ""));
         String transactionMode= json.optString("transactionMode", json.optString("mode","parsingError"));
         String account = json.optString("account", "");
         String category = json.optString("category");
         String description = json.optString("description");
+        long createdDate = json.optLong("createdDate", System.currentTimeMillis());
         return Transaction
                 .builder()
                 .account(account)
@@ -85,7 +96,7 @@ public class Transaction {
                 .spendAt(spendAt)
                 .tags(tags)
                 .type(type)
-                .createdDate(System.currentTimeMillis())
+                .createdDate(createdDate)
                 .createdBy(user)
                 .category(category)
                 .description(description)
