@@ -27,6 +27,11 @@ public class TransactionService {
         return transactionRepo.save(transaction);
     }
 
+    public List<Transaction> createAllTransaction(List<Transaction> transaction){
+        log.info("TransactionService: createTransaction()");
+        return transactionRepo.saveAll(transaction);
+    }
+
     public Transaction updateTransaction(Transaction transaction){
         log.info("TransactionService: updateTransaction()");
         return transactionRepo.save(transaction);
@@ -40,6 +45,16 @@ public class TransactionService {
     public List<Transaction> getAllTransactionForUser(String email){
         log.info("TransactionService: getAllTransactionForUser()");
         return transactionRepo.findAllByCreatedByEmail(email);
+    }
+
+    public List<Transaction> getAllTransactionForUserAfterDate(User user, long date){
+        log.info("TransactionService: getAllTransactionForUser()");
+        return transactionRepo.findAllByCreatedByIdAndByDateGreaterThan(user.getId(), date);
+    }
+
+    public List<Transaction> getAllTransactionForUserBetweenDate(User user, long date1, long date2){
+        log.info("TransactionService: getAllTransactionForUser()");
+        return transactionRepo.findAllByCreatedByIdAndByDateGreaterThan(user.getId(), date1);
     }
 
     public Transaction getTransaction(Long id){

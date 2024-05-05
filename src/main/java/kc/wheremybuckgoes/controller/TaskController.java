@@ -51,6 +51,19 @@ public class TaskController {
         return ResponseEntity.ok().body(gr);
     }
 
+    @PatchMapping()
+    public ResponseEntity<GenericResponse<TaskDTO>> updateTask(@RequestBody TaskDTO taskDTO) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        Task task = taskService.getTaskById(user, taskDTO.getTaskId());
+        if (task == null) {
+            return ResponseEntity.notFound().build();
+        }
+        Task updatedTask = taskService.createOrUpdateTask(taskDTO.convert(user));
+        GenericResponse<TaskDTO> gr = mapToGenericResponse(HttpStatus.OK, updatedTask.convertToDTO());
+        return ResponseEntity.ok().body(gr);
+    }
+
     @PostMapping("/start")
     public ResponseEntity<GenericResponse<TaskDTO>> executeTask(@RequestBody TaskDTO task) {
         log.info("TaskController: executeTask()");

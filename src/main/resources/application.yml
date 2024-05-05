@@ -19,6 +19,8 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
         show_sql: true
         format_sql: true
+        jdbc:
+          batch_size: 100
 gotify:
   url: https://${GOTIFY_HOST}/message?token=
   api: ENC(${GOTIFY_KEY})

@@ -61,7 +61,7 @@ public class TaskService {
     public Task getTaskById(User user, Long id){
         log.info("TaskService: getTaskById() - Task:" + id);
         Task task = taskRepository.findById(id).orElse(null);
-        if(task != null && task.getUser().equals(user)){
+        if(task != null && task.getUser().getEmail().equals(user.getEmail())){
             return task;
         }
         return null;

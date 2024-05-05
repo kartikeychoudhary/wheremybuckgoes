@@ -49,6 +49,10 @@ public class ApplicationConstant {
         Transaction
     }
 
+    public static final String DATE_FORMAT = "DD-MM-YYYY";
+
+    public static final String[] HEADERS = new String[]{"date", "description", "type",  "amount", "mode", "category", "account"};
+
     public static class Exceptions {
         private Exceptions(){}
         public static final String GEMINI_CALL_ERROR = "Exception occurred making api call to gemini";

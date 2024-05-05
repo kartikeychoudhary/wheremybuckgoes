@@ -1,0 +1,2 @@
+﻿Date,Account,Ref,Description,Category,Type,Amount
+DD-MM-YYYY,String,String,String,String,DEBIT/CREDIT,Number

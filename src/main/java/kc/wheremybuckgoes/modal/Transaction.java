@@ -71,6 +71,23 @@ public class Transaction {
                 .build();
     }
 
+    public TransactionDTO convertToDTOWithOutID() {
+        return TransactionDTO
+                .builder()
+                .amount(amount)
+                .description(description)
+                .tags(tags)
+                .account(account)
+                .transactionMode(transactionMode)
+                .type(type)
+                .spendAt(spendAt)
+                .isSplit(isSplit)
+                .category(category)
+                .isDeleted(isDeleted)
+                .createdDate(createdDate)
+                .build();
+    }
+
     public static Transaction convertFromJSONObject(User user, JSONObject json){
         long amount = json.optLong("price", json.optLong("amount", 0));
         String spendAt = json.optString("spendAt", "");
