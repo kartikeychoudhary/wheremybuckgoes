@@ -58,4 +58,6 @@ public class ApplicationConstant {
         public static final String GEMINI_CALL_ERROR = "Exception occurred making api call to gemini";
         public static final String GEN_AI_MAX_REQUEST_THRESHOLD_EXCEEDS = "number of request exceeds maximum allowed gen ai request";
     }
+
+    public static final String[] MONTHS = new String[]{"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sept","Oct","Nov","Dec"};
 }

@@ -1,14 +1,17 @@
 package kc.wheremybuckgoes.utils;
 
+import kc.wheremybuckgoes.constants.ApplicationConstant;
 import kc.wheremybuckgoes.response.GenericResponse;
 import org.springframework.http.HttpStatus;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 public class ApplicationHelper{
 
@@ -66,4 +69,35 @@ public class ApplicationHelper{
         }
         return supportedString.toString();
     }
+
+    public static Map<Integer, String> getMonthsIndexMap(){
+        Map<Integer, String> map = new HashMap<>();
+        for (int i = 0; i < ApplicationConstant.MONTHS.length; i++) {
+            map.put(i, ApplicationConstant.MONTHS[i]);
+        }
+        return map;
+    }
+
+    public static SortedMap<String, long[]> sortByMonthYear(Map<String, long[]> fromMap) {
+        SortedMap<String, long[]> sortedMap = new TreeMap<>(new MonthYearComparator());
+        sortedMap.putAll(fromMap);
+        return sortedMap;
+    }
+
+    private static class MonthYearComparator implements Comparator<String> {
+
+        private final SimpleDateFormat formatter = new SimpleDateFormat("MMM-yyyy");
+
+        @Override
+        public int compare(String key1, String key2) {
+            try {
+                Date date1 = formatter.parse(key1);
+                Date date2 = formatter.parse(key2);
+                return date1.compareTo(date2);
+            } catch (ParseException e) {
+                return 0;
+            }
+        }
+    }
+
 }
