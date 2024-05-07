@@ -27,9 +27,9 @@ public class DashboardService {
         Calendar calendar = Calendar.getInstance();
         List<Transaction> transactions;
                 if(date == 0){
-                    transactions = transactionService.getAllTransactionForUser(user.getEmail()).stream().filter(transaction -> !transaction.isDeleted()).toList();
+                    transactions = transactionService.getAllTransactionForUser(user.getEmail()).stream().filter(transaction -> !transaction.isDeleted() && !transaction.isDisableForCharts()).toList();
                 }else{
-                    transactions = transactionService.getAllTransactionForUserAfterDate(user, date).stream().filter(transaction ->!transaction.isDeleted()).toList();
+                    transactions = transactionService.getAllTransactionForUserAfterDate(user, date).stream().filter(transaction ->!transaction.isDeleted() && !transaction.isDisableForCharts()).toList();
                 }
         transactions.forEach(transaction -> {
             if(transaction.getAccount() == null || transaction.getCategory() == null){

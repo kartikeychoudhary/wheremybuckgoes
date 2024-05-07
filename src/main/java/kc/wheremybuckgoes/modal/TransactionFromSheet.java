@@ -59,6 +59,7 @@ public class TransactionFromSheet {
                 .spendAt(spendAt)
                 .account(account)
                 .amount(amount)
+                .disableForCharts(false)
                 .build();
 
     }

@@ -1,7 +1,6 @@
 package kc.wheremybuckgoes.dto;
 
 import kc.wheremybuckgoes.constants.ApplicationConstant.TransactionType;
-import kc.wheremybuckgoes.constants.ApplicationConstant.SplitType;
 import kc.wheremybuckgoes.modal.Transaction;
 import kc.wheremybuckgoes.modal.User;
 import lombok.AllArgsConstructor;
@@ -27,6 +26,7 @@ public class TransactionDTO {
     private String category;
     private boolean isDeleted;
     private long createdDate;
+    private boolean disableForCharts;
 
     public Transaction convert(User user){
         return Transaction
@@ -44,6 +44,7 @@ public class TransactionDTO {
                 .category(category)
                 .isDeleted(isDeleted)
                 .createdDate(createdDate)
+                .disableForCharts(disableForCharts)
                 .build();
     }
 

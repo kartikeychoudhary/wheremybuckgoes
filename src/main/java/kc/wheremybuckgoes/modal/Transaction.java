@@ -53,22 +53,13 @@ public class Transaction {
 
     private String spendAt;
 
+    @Builder.Default
+    private boolean disableForCharts = false;
+
     public TransactionDTO convertToDTO() {
-        return TransactionDTO
-                .builder()
-                .amount(amount)
-                .description(description)
-                .tags(tags)
-                .account(account)
-                .transactionMode(transactionMode)
-                .type(type)
-                .spendAt(spendAt)
-                .isSplit(isSplit)
-                .id(transactionId)
-                .category(category)
-                .isDeleted(isDeleted)
-                .createdDate(createdDate)
-                .build();
+        TransactionDTO dto = this.convertToDTOWithOutID();
+        dto.setId(transactionId);
+        return dto;
     }
 
     public TransactionDTO convertToDTOWithOutID() {
@@ -85,6 +76,7 @@ public class Transaction {
                 .category(category)
                 .isDeleted(isDeleted)
                 .createdDate(createdDate)
+                .disableForCharts(disableForCharts)
                 .build();
     }
 
