@@ -98,6 +98,11 @@ public class ApplicationHelper{
                 return date1.compareTo(date2);
             } catch (ParseException e) {
                 log.info("Exception occurred while parsing dates value -> Date1 : " + key1 + " Date2 : " + key2);
+                if(key1.toLowerCase().contains("sept") || key2.toLowerCase().contains("sept")){
+                    key1 = key1.replace("Sept", "Sep");
+                    key2 = key2.replace("Sept", "Sep");
+                    return this.compare(key1, key2);
+                }
                 return 0;
             }
         }
