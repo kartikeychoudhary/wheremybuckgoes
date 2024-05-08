@@ -2,6 +2,7 @@ package kc.wheremybuckgoes.utils;
 
 import kc.wheremybuckgoes.constants.ApplicationConstant;
 import kc.wheremybuckgoes.response.GenericResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 
 import java.io.UnsupportedEncodingException;
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+@Slf4j
 public class ApplicationHelper{
 
     private ApplicationHelper(){}
@@ -95,6 +97,7 @@ public class ApplicationHelper{
                 Date date2 = formatter.parse(key2);
                 return date1.compareTo(date2);
             } catch (ParseException e) {
+                log.info("Exception occurred while parsing dates value -> Date1 : " + key1 + " Date2 : " + key2);
                 return 0;
             }
         }
