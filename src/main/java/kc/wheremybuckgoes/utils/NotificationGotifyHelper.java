@@ -17,11 +17,11 @@ public class NotificationGotifyHelper {
     @Value("${gotify.api}")
     private String api;
 
-    @Value("${gotify.disabled}")
-    private boolean disabled;
+    @Value("${gotify.enable}")
+    private boolean enable;
 
     public void sendNotification(String message, String title, int priority) throws IOException {
-        if(this.disabled){return;}
+        if(!this.enable){return;}
         message = ApplicationHelper.convertToSupportedString(message);
         log.info("NotificationGotifyHelper: sendNotification: " + message);
         if(url != null && api != null) {

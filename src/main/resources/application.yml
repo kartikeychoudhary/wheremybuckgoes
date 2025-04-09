@@ -24,10 +24,10 @@ spring:
 gotify:
   url: https://${GOTIFY_HOST}/message?token=
   api: ENC(${GOTIFY_KEY})
-  disabled: true
+  enabled: ${GOTIFY_ENABLE}
 
 genai:
-  enabled: true
+  enabled: ${GENAI_ENABLE}
   provider: gemini
   restrictions:
     maxRequestInQueue: 10
