@@ -24,6 +24,7 @@ spring:
 gotify:
   url: https://${GOTIFY_HOST}/message?token=
   api: ENC(${GOTIFY_KEY})
+  disabled: true
 
 genai:
   enabled: true
@@ -35,7 +36,8 @@ genai:
     maxRequestInOneDay: 100
   gemini:
     API: ENC(${GEMINI_API})
-    endPoint: https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=
+    endPoint: https://generativelanguage.googleapis.com/v1beta/models/
+    model: gemini-2.0-flash
 
 application:
   register: true

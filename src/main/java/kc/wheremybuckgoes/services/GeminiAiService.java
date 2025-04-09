@@ -25,6 +25,9 @@ public class GeminiAiService extends GenAiConfig {
     @Value("${genai.gemini.endPoint}")
     private String endPoint;
 
+    @Value("${genai.gemini.model}")
+    private String model;
+
     // Temporary will be moved to scheduler
     private final NotificationGotifyHelper gotify;
 
@@ -81,24 +84,40 @@ public class GeminiAiService extends GenAiConfig {
         this.setApiKey(this.key);
         this.setEndPoint(this.endPoint);
         this.setSystem(this.system);
+        this.setModel(this.model);
         this.setUser(userText);
         try {
             auditService.saveAudit(AuditExternalRequest.builder().date(System.currentTimeMillis()).type(ApplicationConstant.TaskType.GenAi).message("GEMINI AI CALL").build());
             gotify.sendNotification("Gemini Api request made with text","API request made", 5);
             String response = this.makeCall();
-            JSONObject json = new JSONObject(response);
-            String result = "";
-            JSONArray jsonArray = json.getJSONArray("candidates");
-            if(!jsonArray.isEmpty()){
-                JSONObject content = jsonArray.getJSONObject(0).getJSONObject("content");
-                JSONArray parts = content.getJSONArray("parts");
-                if(!parts.isEmpty()){
-                    result = parts.getJSONObject(0).getString("text");
-                }
-            }
-            return result;
+            return this.parseResponse(response);
         } catch (Exception e) {
             throw new CustomGenericRuntimeException(ApplicationConstant.Exceptions.GEMINI_CALL_ERROR, e);
         }
+    }
+
+    private String parseResponse(String response) {
+        JSONObject jsonResponse = new JSONObject(response);
+
+        if (jsonResponse.has("candidates")) {
+            JSONArray candidates = jsonResponse.getJSONArray("candidates");
+            if (!candidates.isEmpty()) {
+                JSONObject firstCandidate = candidates.getJSONObject(0);
+                if (firstCandidate.has("content")) {
+                    JSONObject content = firstCandidate.getJSONObject("content");
+                    if (content.has("parts")) {
+                        JSONArray parts = content.getJSONArray("parts");
+                        if (!parts.isEmpty()) {
+                            JSONObject firstPart = parts.getJSONObject(0);
+                            if (firstPart.has("text")) {
+                                String text = firstPart.getString("text");
+                                return text.replace("```json", "").replace("```", "").trim();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return "";
     }
 }

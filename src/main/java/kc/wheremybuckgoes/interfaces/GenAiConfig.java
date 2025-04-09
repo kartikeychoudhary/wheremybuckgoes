@@ -3,6 +3,8 @@ package kc.wheremybuckgoes.interfaces;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -13,6 +15,7 @@ public abstract class GenAiConfig {
     private String apiKey;
     private String system;
     private String user;
+    private String model;
 
     protected abstract String getJSONBody(String system, String role);
     protected String makeCall() throws IOException {
@@ -22,7 +25,7 @@ public abstract class GenAiConfig {
         MediaType mediaType = MediaType.parse("application/json");
         RequestBody body = RequestBody.create(getJSONBody(system, user), mediaType);
         Request request = new Request.Builder()
-                .url(endPoint + apiKey)
+                .url(endPoint + model + ":generateContent?key=" + apiKey)
                 .method("POST", body)
                 .addHeader("Content-Type", "application/json")
                 .build();
