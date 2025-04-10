@@ -45,6 +45,7 @@ public class GeminiAiService extends GenAiConfig {
             String response = this.makeCall();
             return this.parseResponse(response);
         } catch (Exception e) {
+            log.info("ERROR: GeminiAiService: makeRequest{}", String.valueOf(e));
             throw new CustomGenericRuntimeException(ApplicationConstant.Exceptions.GEMINI_CALL_ERROR, e);
         }
     }

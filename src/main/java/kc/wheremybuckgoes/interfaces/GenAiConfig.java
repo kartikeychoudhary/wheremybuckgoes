@@ -19,15 +19,12 @@ public abstract class GenAiConfig {
     private String model;
 
     protected String makeCall() throws IOException {
-        log.info("GenAiConfig: makeCall()");
+        log.info("GenAiConfig: makeCall() started");
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         MediaType mediaType = MediaType.parse("application/json");
-        // use response.json file to get the body present at resorces/response.json
+        log.info("GenAiConfig: makeCall() read body response.json start");
         String body = new String(Files.readAllBytes(Paths.get("src/main/resources/response.json")));
-        // replace the "INSERT_INPUT_HERE" with this.user
-        // sanitize the user text which will invalid the body json
-        // use java built in function to sanitize the user text . , are allowed
         this.user = this.user.replaceAll("[^a-zA-Z0-9., ]", "");
         body = body.replace("INSERT_INPUT_HERE", this.user);
         RequestBody requestBody = RequestBody.create(body, mediaType);
