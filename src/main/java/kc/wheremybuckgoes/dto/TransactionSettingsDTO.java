@@ -1,7 +1,5 @@
 package kc.wheremybuckgoes.dto;
 
-import jakarta.persistence.*;
-import kc.wheremybuckgoes.modal.Account;
 import kc.wheremybuckgoes.modal.TransactionSettings;
 import kc.wheremybuckgoes.modal.User;
 import lombok.AllArgsConstructor;
