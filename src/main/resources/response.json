@@ -1,0 +1,186 @@
+{
+  "contents": [
+    {
+      "role": "user",
+      "parts": [
+        {
+          "text": "Rs 1,23,858.29 spent on ICICI Bank Card XX1234 on 10-Apr-25 at HDFC LIFE INSUR. Avl Lmt: Rs 27,039.89. To dispute, call 18002662/SMS BLOCK 1234 to 9215676766. To convert this txn to EMI give a missed call on 9537667667. Know more about EMI conversion at icici.co/DUvfZI0QFMW"
+        }
+      ]
+    },
+    {
+      "role": "model",
+      "parts": [
+        {
+          "text": "{\n  \"account\": \"XX1234\",\n  \"accountType\": \"CREDIT_CARD\",\n  \"amount\": 123858.29,\n  \"category\": \"INSURANCE\",\n  \"date\": \"10-Apr-25\",\n  \"spendAt\": \"HDFC LIFE INSUR\",\n  \"accountName\": \"ICICI Bank\",\n  \"type\": \"DEBIT\"\n}"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "parts": [
+        {
+          "text": "Rs.310.00 spent on your SBI Credit Card ending with 5487 at ZEPTO MARKETPLACE PRIVA on 10-04-25 via UPI (Ref No. 123456789). Trxn. not done by you? Report at https://sbicard.com/Dispute"
+        }
+      ]
+    },
+    {
+      "role": "model",
+      "parts": [
+        {
+          "text": "{\n  \"account\": \"5487\",\n  \"accountType\": \"CREDIT_CARD\",\n  \"amount\": 310.00,\n  \"category\": \"GROCERIES\",\n  \"date\": \"10-04-25\",\n  \"spendAt\": \"ZEPTO MARKETPLACE PRIVA\",\n  \"accountName\": \"SBI\",\n  \"mode\": \"UPI\",\n  \"type\": \"DEBIT\"\n}"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "parts": [
+        {
+          "text": "INR 522.00 spent using ICICI Bank Card XX1234 on 09-Apr-25 on MC DONALDS. Avl Limit: INR 1,50,898.18. If not you, call 1800 2662/SMS BLOCK 1234 to 9215676766."
+        }
+      ]
+    },
+    {
+      "role": "model",
+      "parts": [
+        {
+          "text": "{\n  \"account\": \"XX1234\",\n  \"accountType\": \"CREDIT_CARD\",\n  \"amount\": 522.00,\n  \"category\": \"FOOD\",\n  \"date\": \"09-Apr-25\",\n  \"spendAt\": \"MC DONALDS\",\n  \"accountName\": \"ICICI Bank\",\n  \"type\": \"DEBIT\"\n}"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "parts": [
+        {
+          "text": "Spent\nCard no. XX4321\nINR 149\n04-04-25 23:44:43\nGOOGLE PLAY\nAvl Lmt INR 106860.98\nSMS BLOCK 5142 to 919951860002, if not you - Axis Bank"
+        }
+      ]
+    },
+    {
+      "role": "model",
+      "parts": [
+        {
+          "text": "{\n  \"account\": \"XX4321\",\n  \"accountType\": \"CREDIT_CARD\",\n  \"amount\": 149.00,\n  \"category\": \"SUBSCRIPTION\",\n  \"date\": \"04-04-25\",\n  \"spendAt\": \"GOOGLE PLAY\",\n  \"accountName\": \"Axis Bank\",\n  \"type\": \"DEBIT\"\n}"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "parts": [
+        {
+          "text": "Payment of INR 149.00 for Google Play will be auto debited via Axis Bank Card no. XX4321 by 04-04-25. To deactivate Auto Pay facility against ID XPk7jd5MnK, please log into https://ccm.axbk.in/AXISBK/TQPv62xJ\nTnC apply.\n"
+        }
+      ]
+    },
+    {
+      "role": "model",
+      "parts": [
+        {
+          "text": "{\n  \"account\": \"XX4321\",\n  \"accountType\": \"CREDIT_CARD\",\n  \"amount\": 149.00,\n  \"category\": \"SUBSCRIPTION\",\n  \"date\": \"04-04-25\",\n  \"spendAt\": \"Google Play\",\n  \"accountName\": \"Axis Bank\",\n  \"type\": \"DEBIT\"\n}"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "parts": [
+        {
+          "text": "INR 155.00 debited\nA/c no. XX2528\n02-04-25, 21:32:55\nUPI/P2M/12345646489/SHAUKEEN EXPRESS\nNot you? SMS BLOCKUPI Cust ID to 919951860002\nAxis Bank"
+        }
+      ]
+    },
+    {
+      "role": "model",
+      "parts": [
+        {
+          "text": "{\n  \"account\": \"XX2528\",\n  \"accountType\": \"BANK\",\n  \"amount\": 155.00,\n  \"category\": \"FOOD\",\n  \"date\": \"02-04-25\",\n  \"spendAt\": \"SHAUKEEN EXPRESS\",\n  \"accountName\": \"Axis Bank\",\n  \"mode\": \"UPI\",\n  \"type\": \"DEBIT\"\n}"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "parts": [
+        {
+          "text": "INR 369.00 debited\nA/c no. XX2528\n02-04-25, 09:07:54\nUPI/P2M/3126354964/Dab Arcade\nNot you? SMS BLOCKUPI Cust ID to 919951860002\nAxis Bank"
+        }
+      ]
+    },
+    {
+      "role": "model",
+      "parts": [
+        {
+          "text": "{\n  \"account\": \"XX2528\",\n  \"accountType\": \"BANK\",\n  \"amount\": 369.00,\n  \"category\": \"ENTERTAINMENT\",\n  \"date\": \"02-04-25\",\n  \"spendAt\": \"Dab Arcade\",\n  \"accountName\": \"Axis Bank\",\n  \"mode\": \"UPI\",\n  \"type\": \"DEBIT\"\n}"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "parts": [
+        {
+          "text": "INSERT_INPUT_HERE"
+        }
+      ]
+    }
+  ],
+  "systemInstruction": {
+    "parts": [
+      {
+        "text": "I will be providing transaction sms, your task is to convert them to JSON (output should always be valid JSON) \ncategories can be of type [\"ATM\",\"TRANSFER\",\"BILL\",\"CREDIT CARD BILL\",\"EMI\",\"ENTERTAINMENT\",\"FOOD\",\"GROCERIES\", \"LIQUOR\",\"MEDICAL\",\"FOOD\",\"SHOPPING\",\"RENT\", \"SALARY\", \"SERVICES\",\"SHOPPING\",\"SUBSCRIPTION\",\"TRAVEL\",\"WALLET\", \"INSURANCE\"]\nDate format should be dd mm yy"
+      }
+    ]
+  },
+  "generationConfig": {
+    "temperature": 0.85,
+    "responseMimeType": "application/json",
+    "responseSchema": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "number"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "CREDIT",
+            "DEBIT"
+          ]
+        },
+        "account": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string"
+        },
+        "mode": {
+          "type": "string"
+        },
+        "accountType": {
+          "type": "string",
+          "enum": [
+            "CREDIT_CARD",
+            "BANK",
+            "LOAN",
+            "FIXED_DEPOSIT",
+            "RECURRING_DEPOSIT"
+          ]
+        },
+        "spendAt": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "accountName": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "amount",
+        "account",
+        "date",
+        "accountType",
+        "spendAt",
+        "category"
+      ]
+    }
+  }
+}

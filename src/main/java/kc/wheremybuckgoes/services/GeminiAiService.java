@@ -33,57 +33,10 @@ public class GeminiAiService extends GenAiConfig {
 
     private final AuditExternalRequestService auditService;
 
-    String requestBody = """
-            {
-                                            "contents": [
-                                              {
-                                                "role": "user",
-                                                "parts": [
-                                                  {
-                                                    "text": "**System Instruction:** %s             User Input: %s"
-                                                  }
-                                                ]
-                                              }
-                                            ],
-                                            "generationConfig": {
-                                              "temperature": 1,
-                                              "topK": 0,
-                                              "topP": 0.95,
-                                              "maxOutputTokens": 8192,
-                                              "stopSequences": []
-                                            },
-                                            "safetySettings": [
-                                              {
-                                                "category": "HARM_CATEGORY_HARASSMENT",
-                                                "threshold": "BLOCK_MEDIUM_AND_ABOVE"
-                                              },
-                                              {
-                                                "category": "HARM_CATEGORY_HATE_SPEECH",
-                                                "threshold": "BLOCK_MEDIUM_AND_ABOVE"
-                                              },
-                                              {
-                                                "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-                                                "threshold": "BLOCK_MEDIUM_AND_ABOVE"
-                                              },
-                                              {
-                                                "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
-                                                "threshold": "BLOCK_MEDIUM_AND_ABOVE"
-                                              }
-                                            ]
-                                          }
-        """;
-
-    private String system = "Provided a sms \\\"Debit\\nINR 1006.00\\nA/c no. XX1234\\n11-11-23 18:39:26\\nUPI/P2M/1231236611/Add Money to Wallet\\nSMS BLOCKUPI Cust ID to 9199518602, if not you - Axis Bank\\\"\\n\\nconvert it to json with keys such as \\\"price\\\", \\\"type\\\", \\\"mode\\\", \\\"date\\\", \\\"account\\\", \\\"accountType\\\", \\\"spendAt\\\", \\\"accountName\\\"   (accountType can be credit card/ debit card or bank)\\nso the output for above input would be\\n\\n{\\n\\\"price\\\":\\\"1006.00\\\",\\n\\\"type\\\":\\\"Debit\\\",\\n\\\"account\\\":\\\"XX1234\\\",\\n\\\"date\\\":\\\"11-11-23 18:39:26\\\",\\n\\\"mode\\\":\\\"UPI\\\",\\n\\\"accountType\\\":\\\"Bank\\\",\\n\\\"accountName\\\":\\\"Axis\\\"\\n\\\"spendAt\\\":\\\"Wallet\\\"\\n}\\n\\nexample 2\\nINR 605.00 spent on ICICI Bank Card XX1005 on 23-Apr-24 at PUNE AUTOMOBILE. Avl Lmt: INR 5,726.12. To dispute,call 18002662/SMS BLOCK 1005 to 9215876766\\n{\\n\\\"price\\\":\\\"605.00\\\",\\n\\\"type\\\":\\\"Debit\\\",\\n\\\"account\\\":\\\"XX1005\\\",\\n\\\"date\\\":\\\"123-04-24\\\",\\n\\\"mode\\\":\\\"CARD\\\"\\n\\\"accountType\\\":\\\"Card\\\",\\n\\\"accountName\\\":\\\"ICICI\\\"\\n\\\"spendAt\\\":\\\"PUNE AUTOMOBILE\\\"\\n output should be a valid JSON";
-    @Override
-    protected String getJSONBody(String system, String user) {
-        return requestBody.formatted(system, user.strip());
-    }
-
     public String makeRequest(String userText){
         log.info("GeminiAiService: makeRequest");
         this.setApiKey(this.key);
         this.setEndPoint(this.endPoint);
-        this.setSystem(this.system);
         this.setModel(this.model);
         this.setUser(userText);
         try {

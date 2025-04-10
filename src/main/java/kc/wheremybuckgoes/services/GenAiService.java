@@ -46,4 +46,15 @@ public class GenAiService {
             return taskService.failedTask(task, e.getMessage());
         }
     }
+
+    public String testGenAIRequest(String request){
+        try{
+            String response = geminiAiService.makeRequest(request);
+            log.info("GenAiService: testGenAIRequest - Task Completed");
+            return response;
+        }catch (CustomGenericRuntimeException e){
+            log.info("GenAiService: testGenAIRequest - Task Failed");
+            return "failed";
+        }
+    }
 }
