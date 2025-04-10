@@ -7,8 +7,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 @Data
 @Slf4j
@@ -22,9 +22,15 @@ public abstract class GenAiConfig {
         log.info("GenAiConfig: makeCall() started");
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
-        MediaType mediaType = MediaType.parse("application/json");
-        log.info("GenAiConfig: makeCall() read body response.json start");
-        String body = new String(Files.readAllBytes(Paths.get("src/main/resources/response.json")));
+        MediaType mediaType = MediaType.parse("application/json");        
+        String body;
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("response.json")) {
+            if (inputStream == null) {
+                log.error("Resource file 'response.json' not found!");
+                throw new IOException("Resource file 'response.json' not found!");
+            }
+            body = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+        }
         this.user = this.user.replaceAll("[^a-zA-Z0-9., ]", "");
         body = body.replace("INSERT_INPUT_HERE", this.user);
         RequestBody requestBody = RequestBody.create(body, mediaType);
@@ -33,7 +39,6 @@ public abstract class GenAiConfig {
                 .method("POST", requestBody)
                 .addHeader("Content-Type", "application/json")
                 .build();
-        log.info("GenAiConfig: makeCall() for :{}", String.valueOf(this.user));
         Response response = client.newCall(request).execute();
         if(response.body() != null){
             return response.body().string();
