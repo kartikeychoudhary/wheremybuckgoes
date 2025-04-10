@@ -36,6 +36,7 @@ public abstract class GenAiConfig {
                 .method("POST", requestBody)
                 .addHeader("Content-Type", "application/json")
                 .build();
+        log.info("GenAiConfig: makeCall() for :{}", String.valueOf(this.user));
         Response response = client.newCall(request).execute();
         if(response.body() != null){
             return response.body().string();
