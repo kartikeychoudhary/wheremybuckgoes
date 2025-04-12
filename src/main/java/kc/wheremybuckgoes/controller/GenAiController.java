@@ -51,21 +51,21 @@ public class GenAiController {
         return ResponseEntity.ok().body(gr);
     }
 
-//    @PostMapping("/test")
-//    public ResponseEntity<GenericResponse<String>> testGenAi(@RequestBody String userTask) {
-//        log.info("GenAiController: testGenAi");
-//        String response;
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        if(!authentication.isAuthenticated()){
-//            return ResponseEntity.badRequest().body(new GenericResponse<>());
-//        }
-//        try {
-//            response = genAiService.testGenAIRequest(userTask);
-//        }catch (CustomGenericRuntimeException e){
-//            return ResponseEntity.badRequest().body(mapToGenericResponse(HttpStatus.TOO_MANY_REQUESTS, null, e.getMessage()));
-//        }
-//        GenericResponse<String> gr = mapToGenericResponse(HttpStatus.OK, response);
-//        return ResponseEntity.ok().body(gr);
-//    }
+    @PostMapping("/test")
+    public ResponseEntity<GenericResponse<String>> testGenAi(@RequestBody String userTask) {
+        log.info("GenAiController: testGenAi");
+        String response;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(!authentication.isAuthenticated()){
+            return ResponseEntity.badRequest().body(new GenericResponse<>());
+        }
+        try {
+            response = genAiService.testGenAIRequest(userTask);
+        }catch (CustomGenericRuntimeException e){
+            return ResponseEntity.badRequest().body(mapToGenericResponse(HttpStatus.TOO_MANY_REQUESTS, null, e.getMessage()));
+        }
+        GenericResponse<String> gr = mapToGenericResponse(HttpStatus.OK, response);
+        return ResponseEntity.ok().body(gr);
+    }
 
 }

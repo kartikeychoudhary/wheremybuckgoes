@@ -1,8 +1,10 @@
 package kc.wheremybuckgoes.modal;
 
 import jakarta.persistence.*;
+import kc.wheremybuckgoes.constants.ApplicationConstant;
 import kc.wheremybuckgoes.constants.ApplicationConstant.TransactionType;
 import kc.wheremybuckgoes.dto.TransactionDTO;
+import kc.wheremybuckgoes.utils.ApplicationHelper;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -91,13 +93,21 @@ public class Transaction {
                 dateTag = json.getJSONArray("tags").getString(0);
             }
         }
-        String[] tags = new String[] { dateTag, json.optString("transactionMode", json.optString("mode","parsingError"))};
+        String[] tags = new String[] { dateTag, json.optString("transactionMode", json.optString("mode","parsingError")), json.optString("smsReceivedAt","NA")};
         TransactionType type = TransactionType.fromString(json.optString("type", ""));
         String transactionMode= json.optString("transactionMode", json.optString("mode","parsingError"));
         String account = json.optString("account", "");
         String category = json.optString("category");
         String description = json.optString("description");
         long createdDate = json.optLong("createdDate", System.currentTimeMillis());
+        String parsedDate = json.optString("date", null);
+        if(parsedDate != null){
+            Long parsedDateInMillis = ApplicationHelper.convertDateToMillis(parsedDate, new String[] {"dd MMM yy", "dd MMM yyyy", "dd MM yy", "dd MM yyyy", "ddMMyy", "ddMMyyyy"});
+            if(parsedDateInMillis != null){
+                createdDate = parsedDateInMillis;
+            }
+        }
+
         return Transaction
                 .builder()
                 .account(account)

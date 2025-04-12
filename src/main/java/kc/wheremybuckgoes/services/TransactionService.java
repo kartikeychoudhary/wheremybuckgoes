@@ -69,7 +69,8 @@ public class TransactionService {
         try {
             JSONObject json = new JSONObject(new String(task.getResponse()));
             Transaction transaction = Transaction.convertFromJSONObject(user, json);
-            transaction.setCreatedDate(task.getCreatedDate());
+            transaction.setDescription(task.getRequest());
+            // transaction.setCreatedDate(task.getCreatedDate());
             this.createTransaction(transaction);
             return taskService.completeTask(task, new String(task.getResponse()));
         }catch (Exception e){

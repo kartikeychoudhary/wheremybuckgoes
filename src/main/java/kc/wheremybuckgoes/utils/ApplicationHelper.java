@@ -11,6 +11,7 @@ import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -108,4 +109,26 @@ public class ApplicationHelper{
         }
     }
 
+
+    public static Long convertDateToMillis(String date, String format){
+        try {
+            // datetime formatter for format 01 Jan 2025
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+            LocalDate localDate = LocalDate.parse(date, formatter);
+            return localDate.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli();
+        } catch (Exception e) {
+            log.info("Exception occurred while parsing date value -> " + date);
+            return null;
+        }
+    }
+
+    public static Long convertDateToMillis(String date, String[] formats){
+        for (String format : formats) {
+            Long d = convertDateToMillis(date, format);
+            if(d != null){
+                return d;
+            }
+        }
+        return null;
+    }
 }

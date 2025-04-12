@@ -31,7 +31,7 @@ public abstract class GenAiConfig {
             }
             body = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
         }
-        this.user = this.user.replaceAll("[^a-zA-Z0-9., ]", "");
+        this.user = this.user.replaceAll("[^a-zA-Z0-9.,: ]", "");
         body = body.replace("INSERT_INPUT_HERE", this.user);
         RequestBody requestBody = RequestBody.create(body, mediaType);
         Request request = new Request.Builder()

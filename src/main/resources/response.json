@@ -124,7 +124,7 @@
   "systemInstruction": {
     "parts": [
       {
-        "text": "I will be providing transaction sms, your task is to convert them to JSON (output should always be valid JSON) \ncategories can be of type [\"ATM\",\"TRANSFER\",\"BILL\",\"CREDIT CARD BILL\",\"EMI\",\"ENTERTAINMENT\",\"FOOD\",\"GROCERIES\", \"LIQUOR\",\"MEDICAL\",\"FOOD\",\"SHOPPING\",\"RENT\", \"SALARY\", \"SERVICES\",\"SHOPPING\",\"SUBSCRIPTION\",\"TRAVEL\",\"WALLET\", \"INSURANCE\"]\nDate format should be dd mm yy"
+        "text": "I will be providing transaction sms, your task is to convert them to JSON (output should always be valid JSON) \ncategories can be of type [\"ATM\",\"TRANSFER\",\"BILL\",\"CREDIT CARD BILL\",\"EMI\",\"ENTERTAINMENT\",\"FOOD\",\"GROCERIES\", \"LIQUOR\",\"MEDICAL\",\"FOOD\",\"SHOPPING\",\"RENT\", \"SALARY\", \"SERVICES\",\"SHOPPING\",\"SUBSCRIPTION\",\"TRAVEL\",\"WALLET\", \"INSURANCE\"]\nDate format should be dd mmm yy (e.g 01 jan 25)"
       }
     ]
   },
@@ -148,7 +148,8 @@
           "type": "string"
         },
         "date": {
-          "type": "string"
+          "type": "string",
+          "pattern": "^(0[1-9]|[12][0-9]|3[01]) (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \\d{4}$"
         },
         "mode": {
           "type": "string"
@@ -170,6 +171,9 @@
           "type": "string"
         },
         "accountName": {
+          "type": "string"
+        },
+        "smsReceivedAt": {
           "type": "string"
         }
       },
