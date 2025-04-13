@@ -63,6 +63,15 @@ public class TransactionController {
         return ResponseEntity.ok().body(gr);
     }
 
+    @GetMapping("/accounts")
+    public ResponseEntity<GenericResponse<List<String>>> getAllAccounts() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        List<String> accounts = transactionService.getAllAccountsForUser(user.getId(), user.getEmail());
+        GenericResponse<List<String>> gr = mapToGenericResponse(HttpStatus.OK, accounts);
+        return ResponseEntity.ok().body(gr);
+    }
+
     @GetMapping(path = "/{id}")
     public ResponseEntity<GenericResponse<TransactionDTO>> getTransaction(@PathVariable("id") Long id) {
         Transaction transaction = transactionService.getTransaction(id);

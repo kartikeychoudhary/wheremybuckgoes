@@ -47,6 +47,11 @@ public class TransactionService {
         return transactionRepo.findAllByCreatedByEmail(email);
     }
 
+    public List<String> getAllAccountsForUser(Long id, String email){
+        log.info("TransactionService: getAllAccountsForUser()");
+        return transactionRepo.findAllDistinctAccountByCreatedByEmail(id, email);
+    }
+
     public List<Transaction> getAllTransactionForUserAfterDate(User user, long date){
         log.info("TransactionService: getAllTransactionForUser()");
         return transactionRepo.findAllByCreatedByIdAndByDateGreaterThan(user.getId(), date);
