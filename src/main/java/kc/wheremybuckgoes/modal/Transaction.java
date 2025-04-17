@@ -29,8 +29,10 @@ public class Transaction {
 
     private String account;
 
+    @Lob
     private String description;
 
+    @Lob
     private String[] tags;
 
     private TransactionType type;
