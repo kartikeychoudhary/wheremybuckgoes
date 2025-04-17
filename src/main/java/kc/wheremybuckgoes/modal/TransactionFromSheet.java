@@ -52,7 +52,7 @@ public class TransactionFromSheet {
                 .createdBy(user)
                 .transactionId(null)
                 .createdDate(date)
-                .description(description)
+                .description(description.getBytes())
                 .type(type)
                 .transactionMode(mode)
                 .category(category)

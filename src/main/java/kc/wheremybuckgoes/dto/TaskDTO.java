@@ -36,7 +36,7 @@ public class TaskDTO {
                 .endDate(endDate)
                 .type(type)
                 .user(user)
-                .request(request)
+                .request(request.getBytes())
                 .response(response.getBytes())
                 .isDeleted(isDeleted)
                 .executionTime(executionTime).build();

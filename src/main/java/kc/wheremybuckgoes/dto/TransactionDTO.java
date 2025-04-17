@@ -34,7 +34,7 @@ public class TransactionDTO {
                 .transactionId(id)
                 .amount(amount)
                 .account(account)
-                .description(description)
+                .description(description.getBytes())
                 .tags(tags)
                 .type(type)
                 .isSplit(isSplit)

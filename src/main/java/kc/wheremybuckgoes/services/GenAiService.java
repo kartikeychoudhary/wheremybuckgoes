@@ -38,7 +38,7 @@ public class GenAiService {
         log.info("GenAiService: executeGenAiRequest - Task Started:" + task.getTaskId());
         task = taskService.startTask(task);
         try{
-            String response = geminiAiService.makeRequest(task.getRequest());
+            String response = geminiAiService.makeRequest(new String(task.getRequest()));
             log.info("GenAiService: executeGenAiRequest - Task Completed:" + task.getTaskId());
             return taskService.completeTask(task, response);
         }catch (CustomGenericRuntimeException e){

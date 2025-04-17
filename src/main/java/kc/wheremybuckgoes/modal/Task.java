@@ -32,7 +32,7 @@ public class Task {
     private long endDate;
     private TaskType type;
     @Lob
-    private String request;
+    private byte[] request;
     @Lob
     private byte[] response;
     private long executionTime;
@@ -51,7 +51,7 @@ public class Task {
                 .startDate(startDate)
                 .endDate(endDate)
                 .type(type)
-                .request(request)
+                .request(new String(request))
                 .response(new String(response))
                 .executionTime(executionTime)
                 .isDeleted(isDeleted)

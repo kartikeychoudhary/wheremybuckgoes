@@ -71,7 +71,7 @@ public class TaskService {
         log.info("TaskService: createGenAiTask()");
         return this.createOrUpdateTask(Task.builder()
                 .status(TaskStatus.OPEN)
-                .request(request)
+                .request(request.getBytes())
                 .type(TaskType.GenAi)
                 .user(user)
                 .createdDate(System.currentTimeMillis())

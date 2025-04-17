@@ -30,9 +30,8 @@ public class Transaction {
     private String account;
 
     @Lob
-    private String description;
+    private byte[] description;
 
-    @Lob
     private String[] tags;
 
     private TransactionType type;
@@ -72,7 +71,7 @@ public class Transaction {
         return TransactionDTO
                 .builder()
                 .amount(amount)
-                .description(description)
+                .description(new String(description))
                 .tags(tags)
                 .account(account)
                 .transactionMode(transactionMode)
@@ -122,7 +121,7 @@ public class Transaction {
                 .createdDate(createdDate)
                 .createdBy(user)
                 .category(category)
-                .description(description)
+                .description(description.getBytes())
                 .transactionMode(transactionMode).build();
     }
 }
