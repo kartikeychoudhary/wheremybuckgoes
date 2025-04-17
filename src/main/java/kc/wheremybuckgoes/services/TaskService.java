@@ -28,6 +28,18 @@ public class TaskService {
         taskRepository.delete(task);
     }
 
+    public List<Task> bulkGet(User user, List<Long> ids){
+        log.info("TaskService: bulkGet()");
+        List<Task> tasks = taskRepository.findAllById(ids);
+        return tasks.stream().filter(task -> task.getUser().getEmail().equals(user.getEmail())).toList();
+    }
+
+    public void bulkDelete(List<Long> ids){
+        log.info("TaskService: bulkDelete()");
+        List<Task> tasks = taskRepository.findAllById(ids);
+        taskRepository.deleteAll(tasks);
+    }
+
     public List<Task> getAllTask(User user){
         log.info("TaskService: getAllTaskUser()");
         return taskRepository.findAllByUser(user).orElse(null);

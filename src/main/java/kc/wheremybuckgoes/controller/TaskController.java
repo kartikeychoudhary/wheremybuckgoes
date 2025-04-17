@@ -19,6 +19,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.List;
 
 import static kc.wheremybuckgoes.utils.ApplicationHelper.mapToGenericResponse;
@@ -39,6 +40,19 @@ public class TaskController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         GenericResponse<List<TaskDTO>> gr = mapToGenericResponse(HttpStatus.OK, taskService.getAllTask(user).stream().filter(task -> !task.isDeleted()).map(Task::convertToDTO).toList());
+        return ResponseEntity.ok().body(gr);
+    }
+
+    @DeleteMapping("/bulk")
+    public ResponseEntity<GenericResponse<List<Long>>> bulkDelete(@RequestBody List<Long> ids) {
+        log.info("TaskController: bulkDelete()");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        List<Task> tasks = taskService.bulkGet(user, ids);
+        List<Long> deletedIds = tasks.stream().map(Task::getTaskId).toList();
+        ids.removeAll(new HashSet<>(deletedIds));
+        taskService.bulkDelete(tasks.stream().map(Task::getTaskId).toList());
+        GenericResponse<List<Long>> gr = mapToGenericResponse(HttpStatus.OK, ids);
         return ResponseEntity.ok().body(gr);
     }
 
