@@ -32,8 +32,10 @@ public class Task {
     private long endDate;
     private TaskType type;
     @Lob
+    @Column(columnDefinition="BLOB")
     private byte[] request;
     @Lob
+    @Column(columnDefinition="BLOB")
     private byte[] response;
     private long executionTime;
 

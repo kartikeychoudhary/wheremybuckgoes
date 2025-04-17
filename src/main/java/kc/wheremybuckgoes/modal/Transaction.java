@@ -30,6 +30,7 @@ public class Transaction {
     private String account;
 
     @Lob
+    @Column(columnDefinition="BLOB")
     private byte[] description;
 
     private String[] tags;
