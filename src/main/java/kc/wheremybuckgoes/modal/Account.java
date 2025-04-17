@@ -17,6 +17,7 @@ public class Account {
     private Long accountId;
     private Long balance;
     private String color;
+    @Lob
     private String description;
     private String icon;
     private String issuer;

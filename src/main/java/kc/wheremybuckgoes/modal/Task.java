@@ -31,6 +31,7 @@ public class Task {
     private long startDate;
     private long endDate;
     private TaskType type;
+    @Lob
     private String request;
     @Lob
     private byte[] response;

@@ -20,6 +20,7 @@ public class Settings {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long settingsId;
     private ApplicationConstant.Theme theme;
+    @Lob
     private String[] categories;
     private String currency;
     private String symbol;

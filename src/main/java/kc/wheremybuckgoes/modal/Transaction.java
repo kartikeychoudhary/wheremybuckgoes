@@ -55,6 +55,8 @@ public class Transaction {
 
     private String spendAt;
 
+    private String application;
+
     @Builder.Default
     private boolean disableForCharts = false;
 
