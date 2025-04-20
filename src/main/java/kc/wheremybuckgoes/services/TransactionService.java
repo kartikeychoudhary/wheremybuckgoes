@@ -10,6 +10,9 @@ import kc.wheremybuckgoes.repositories.TransactionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -53,13 +56,17 @@ public class TransactionService {
     }
 
     public List<Transaction> getAllTransactionForUserAfterDate(User user, long date){
-        log.info("TransactionService: getAllTransactionForUser()");
+        log.info("TransactionService: getAllTransactionForUserAfterDate()");
         return transactionRepo.findAllByCreatedByIdAndByDateGreaterThan(user.getId(), date);
+    }
+    public List<Transaction> getAllTransactionForUserBeforeDate(User user, long date){
+        log.info("TransactionService: getAllTransactionForUserBeforeDate()");
+        return transactionRepo.findAllByCreatedByIdAndByDateLessThan(user.getId(), date);
     }
 
     public List<Transaction> getAllTransactionForUserBetweenDate(User user, long date1, long date2){
-        log.info("TransactionService: getAllTransactionForUser()");
-        return transactionRepo.findAllByCreatedByIdAndByDateGreaterThan(user.getId(), date1);
+        log.info("TransactionService: getAllTransactionForUserBetweenDate()");
+        return transactionRepo.findAllByCreatedByIdAndByDateBetween(user.getId(), date1, date2);
     }
 
     public Transaction getTransaction(Long id){
@@ -81,5 +88,16 @@ public class TransactionService {
         }catch (Exception e){
             return taskService.failedTask(task, new String(task.getResponse()));
         }
+    }
+
+    public List<Transaction> getAllTransactionForUserPerPage(User user, int offset, int size){
+        log.info("TransactionService: getAllTransactionForUserPerPage()");
+        Page<Transaction> transactions = transactionRepo.findAllByCreatedById(user.getId(), PageRequest.of(offset, size).withSort(Sort.by(Sort.Direction.DESC,"createdDate")));
+        return transactions.getContent();
+    }
+
+    public List<Transaction> getAllTransactionForUserAfterDate(User user, long date, int offset, int size){
+        log.info("TransactionService: getAllTransactionForUserAfterDate(User user, long date, int offset, int size)");
+        return transactionRepo.findAllByCreatedByIdAndByDateGreaterThan(user.getId(), date, PageRequest.of(offset, size).withSort(Sort.by(Sort.Direction.DESC,"createdDate"))).getContent();
     }
 }
