@@ -61,6 +61,15 @@ public class TransactionController {
         return ResponseEntity.ok().body(gr);
     }
 
+    @GetMapping("/deleted")
+    public ResponseEntity<GenericResponse<List<TransactionDTO>>> getDeletedTransactions() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        List<Transaction> transactions = transactionService.getAllTransactionForUser(user.getEmail());
+        GenericResponse<List<TransactionDTO>> gr = mapToGenericResponse(HttpStatus.OK, transactions.stream().filter(Transaction::isDeleted).map(Transaction::convertToDTO).toList());
+        return ResponseEntity.ok().body(gr);
+    }
+
     @GetMapping("/accounts")
     public ResponseEntity<GenericResponse<List<String>>> getAllAccounts() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
