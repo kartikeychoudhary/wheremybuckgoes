@@ -64,7 +64,7 @@ public class VisualizeService {
             String category = transaction.getCategory().toLowerCase();
             String transactionMode = transaction.getTransactionMode().toLowerCase();
             String transactionType = transaction.getType().name().toLowerCase();
-            if(transaction.isDisableForCharts()){
+            if(transaction.isDisableForCharts() || transaction.isDeleted()){
                 return false;
             }
             if(!categoriesMap.containsKey("all") && !categoriesMap.containsKey(category)){

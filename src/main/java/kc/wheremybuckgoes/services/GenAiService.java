@@ -27,7 +27,7 @@ public class GenAiService {
     private final TaskService taskService;
 
     public Task createGenAiRequest(User user, String userText){
-        List<Task> tasks = taskService.getAllTaskByStatusAndType(user, TaskStatus.OPEN, TaskType.GenAi);
+        List<Task> tasks = taskService.getAllTaskByStatusAndType(user, TaskStatus.OPEN, TaskType.GEN_AI);
         if(tasks != null && tasks.size() >= this.maxRequestInQueue){
             throw new CustomGenericRuntimeException(ApplicationConstant.Exceptions.GEN_AI_MAX_REQUEST_THRESHOLD_EXCEEDS, new RuntimeException());
         }

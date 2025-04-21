@@ -40,7 +40,7 @@ public class GeminiAiService extends GenAiConfig {
         this.setModel(this.model);
         this.setUser(userText);
         try {
-            auditService.saveAudit(AuditExternalRequest.builder().date(System.currentTimeMillis()).type(ApplicationConstant.TaskType.GenAi).message("GEMINI AI CALL").build());
+            auditService.saveAudit(AuditExternalRequest.builder().date(System.currentTimeMillis()).type(ApplicationConstant.TaskType.GEN_AI).message("GEMINI AI CALL").build());
             gotify.sendNotification("Gemini Api request made with text","API request made", 5);
             String response = this.makeCall();
             return this.parseResponse(response);

@@ -1,13 +1,10 @@
 package kc.wheremybuckgoes.scheduler;
 
 import kc.wheremybuckgoes.constants.ApplicationConstant;
-import kc.wheremybuckgoes.exceptions.CustomGenericRuntimeException;
-import kc.wheremybuckgoes.modal.AuditExternalRequest;
 import kc.wheremybuckgoes.modal.Task;
 import kc.wheremybuckgoes.services.AuditExternalRequestService;
 import kc.wheremybuckgoes.services.GenAiService;
 import kc.wheremybuckgoes.services.TaskService;
-import kc.wheremybuckgoes.utils.ApplicationHelper;
 import kc.wheremybuckgoes.utils.NotificationGotifyHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +12,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.util.List;
 
 @Component
@@ -37,7 +33,7 @@ public class CustomTaskScheduler {
     @Scheduled(fixedRate = 2 * 60 * 1000) // Runs every 2 min
     public void completeTaskFromQueueForGenAi() {
         log.info("Custom Task Scheduler: completeTaskFromQueueForGenAi: START");
-        List<Task> tasks = taskService.getAllTaskByStatusAndType(ApplicationConstant.TaskStatus.OPEN, ApplicationConstant.TaskType.GenAi);
+        List<Task> tasks = taskService.getAllTaskByStatusAndType(ApplicationConstant.TaskStatus.OPEN, ApplicationConstant.TaskType.GEN_AI);
             for (Task task : tasks) {
                 genAiService.executeGenAiRequest(task);
             }

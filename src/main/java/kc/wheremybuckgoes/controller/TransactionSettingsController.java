@@ -1,10 +1,6 @@
 package kc.wheremybuckgoes.controller;
 
-import kc.wheremybuckgoes.dto.FriendsDTO;
-import kc.wheremybuckgoes.dto.TransactionDTO;
 import kc.wheremybuckgoes.dto.TransactionSettingsDTO;
-import kc.wheremybuckgoes.modal.Friends;
-import kc.wheremybuckgoes.modal.Transaction;
 import kc.wheremybuckgoes.modal.TransactionSettings;
 import kc.wheremybuckgoes.modal.User;
 import kc.wheremybuckgoes.response.GenericResponse;

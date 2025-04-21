@@ -84,7 +84,7 @@ public class TaskService {
         return this.createOrUpdateTask(Task.builder()
                 .status(TaskStatus.OPEN)
                 .request(request.getBytes())
-                .type(TaskType.GenAi)
+                .type(TaskType.GEN_AI)
                 .user(user)
                 .createdDate(System.currentTimeMillis())
                 .build());

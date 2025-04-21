@@ -1,6 +1,5 @@
 package kc.wheremybuckgoes.dto;
 
-import jakarta.persistence.*;
 import kc.wheremybuckgoes.modal.Friends;
 import kc.wheremybuckgoes.modal.User;
 import lombok.AllArgsConstructor;

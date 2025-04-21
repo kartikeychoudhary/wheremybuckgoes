@@ -2,7 +2,6 @@ package kc.wheremybuckgoes.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import kc.wheremybuckgoes.dto.SettingsDTO;
 import kc.wheremybuckgoes.dto.TransactionDTO;
 import kc.wheremybuckgoes.dto.VisualizeDTO;
 import kc.wheremybuckgoes.modal.*;
@@ -20,8 +19,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 import static kc.wheremybuckgoes.utils.ApplicationHelper.mapToGenericResponse;
 
@@ -52,7 +49,7 @@ public class DashboardController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         List<Transaction> transactions = transactionService.getAllTransactionForUser(user.getEmail());
-        GenericResponse<List<TransactionDTO>> gr = mapToGenericResponse(HttpStatus.OK, transactions.stream().filter(transaction -> !transaction.isDeleted()).map(Transaction::convertToDTO).collect(Collectors.toList()));
+        GenericResponse<List<TransactionDTO>> gr = mapToGenericResponse(HttpStatus.OK, transactions.stream().filter(transaction -> !transaction.isDeleted()).map(Transaction::convertToDTO).toList());
         return ResponseEntity.ok().body(gr);
     }
 

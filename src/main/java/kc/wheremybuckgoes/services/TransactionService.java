@@ -2,7 +2,6 @@ package kc.wheremybuckgoes.services;
 
 
 import kc.wheremybuckgoes.constants.ApplicationConstant;
-import kc.wheremybuckgoes.exceptions.CustomGenericRuntimeException;
 import kc.wheremybuckgoes.modal.Task;
 import kc.wheremybuckgoes.modal.Transaction;
 import kc.wheremybuckgoes.modal.User;
@@ -76,13 +75,12 @@ public class TransactionService {
 
     public Task convertTaskToTransaction(User user, Task task){
         log.info("TransactionService: convertTaskToTransaction() - Task: " + task.getTaskId());
-        task.setType(ApplicationConstant.TaskType.Transaction);
+        task.setType(ApplicationConstant.TaskType.TRANSACTION);
         task = taskService.startTask(task);
         try {
             JSONObject json = new JSONObject(new String(task.getResponse()));
             Transaction transaction = Transaction.convertFromJSONObject(user, json);
             transaction.setDescription(task.getRequest());
-            // transaction.setCreatedDate(task.getCreatedDate());
             this.createTransaction(transaction);
             return taskService.completeTask(task, new String(task.getResponse()));
         }catch (Exception e){

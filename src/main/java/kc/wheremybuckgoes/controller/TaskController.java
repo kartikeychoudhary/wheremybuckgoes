@@ -2,10 +2,7 @@ package kc.wheremybuckgoes.controller;
 
 import kc.wheremybuckgoes.constants.ApplicationConstant;
 import kc.wheremybuckgoes.dto.TaskDTO;
-import kc.wheremybuckgoes.dto.TransactionDTO;
-import kc.wheremybuckgoes.exceptions.CustomGenericRuntimeException;
 import kc.wheremybuckgoes.modal.Task;
-import kc.wheremybuckgoes.modal.Transaction;
 import kc.wheremybuckgoes.modal.User;
 import kc.wheremybuckgoes.response.GenericResponse;
 import kc.wheremybuckgoes.services.GenAiService;
@@ -84,7 +81,7 @@ public class TaskController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         Task tt = taskService.getTaskById(user, task.getTaskId());
-        if(tt.getType().equals(ApplicationConstant.TaskType.GenAi) && tt.getStatus().equals(ApplicationConstant.TaskStatus.OPEN)){
+        if(tt.getType().equals(ApplicationConstant.TaskType.GEN_AI) && tt.getStatus().equals(ApplicationConstant.TaskStatus.OPEN)){
             tt = genAiService.executeGenAiRequest(tt);
         }
         GenericResponse<TaskDTO> gr = mapToGenericResponse(HttpStatus.OK, tt.convertToDTO());
@@ -98,7 +95,7 @@ public class TaskController {
         User user = (User) authentication.getPrincipal();
         Task tt = taskService.getTaskById(user, task.getTaskId());
         try{
-        if(tt.getType().equals(ApplicationConstant.TaskType.GenAi) && tt.getStatus().equals(ApplicationConstant.TaskStatus.COMPLETED)){
+        if(tt.getType().equals(ApplicationConstant.TaskType.GEN_AI) && tt.getStatus().equals(ApplicationConstant.TaskStatus.COMPLETED)){
            tt = transactionService.convertTaskToTransaction(user, tt);
         }}catch (Exception e){
             return  ResponseEntity.badRequest().build();

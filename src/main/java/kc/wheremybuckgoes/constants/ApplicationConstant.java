@@ -45,8 +45,8 @@ public class ApplicationConstant {
     }
 
     public enum TaskType {
-        GenAi,
-        Transaction
+        GEN_AI,
+        TRANSACTION
     }
 
     public enum AccountTypes {

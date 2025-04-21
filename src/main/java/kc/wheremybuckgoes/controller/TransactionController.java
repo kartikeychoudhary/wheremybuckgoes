@@ -11,9 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static kc.wheremybuckgoes.utils.ApplicationHelper.mapToGenericResponse;
 
@@ -39,27 +37,27 @@ public class TransactionController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         List<Transaction> transactions = transactionService.getAllTransactionForUserAfterDate(user, d);
-        GenericResponse<List<TransactionDTO>> gr = mapToGenericResponse(HttpStatus.OK, transactions.stream().filter(transaction -> !transaction.isDeleted()).map(Transaction::convertToDTO).collect(Collectors.toList()));
+        GenericResponse<List<TransactionDTO>> gr = mapToGenericResponse(HttpStatus.OK, transactions.stream().filter(transaction -> !transaction.isDeleted()).map(Transaction::convertToDTO).toList());
         return ResponseEntity.ok().body(gr);
     }
 
-//    @GetMapping(path = "/between/{date1}/{date2}")
-//    public ResponseEntity<GenericResponse<List<TransactionDTO>>> getTransactionsAfterDate(@PathVariable("date1") String date1, @PathVariable("date2") String date2) {
-//        long d1 = Long.parseLong(date1);
-//        long d2 = Long.parseLong(date2);
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        User user = (User) authentication.getPrincipal();
-//        List<Transaction> transactions = transactionService.getAllTransactionForUserAfterDate(user, date1);
-//        GenericResponse<List<TransactionDTO>> gr = mapToGenericResponse(HttpStatus.OK, transactions.stream().filter(transaction -> !transaction.isDeleted()).map(Transaction::convertToDTO).collect(Collectors.toList()));
-//        return ResponseEntity.ok().body(gr);
-//    }
+    @GetMapping(path = "/between/{date1}/{date2}")
+    public ResponseEntity<GenericResponse<List<TransactionDTO>>> getTransactionsAfterDate(@PathVariable("date1") String date1, @PathVariable("date2") String date2) {
+        long d1 = Long.parseLong(date1);
+        long d2 = Long.parseLong(date2);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        List<Transaction> transactions = transactionService.getAllTransactionForUserBetweenDate(user, d1, d2);
+        GenericResponse<List<TransactionDTO>> gr = mapToGenericResponse(HttpStatus.OK, transactions.stream().filter(transaction -> !transaction.isDeleted()).map(Transaction::convertToDTO).toList());
+        return ResponseEntity.ok().body(gr);
+    }
 
     @GetMapping
     public ResponseEntity<GenericResponse<List<TransactionDTO>>> getTransactionsForDate() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         List<Transaction> transactions = transactionService.getAllTransactionForUser(user.getEmail());
-        GenericResponse<List<TransactionDTO>> gr = mapToGenericResponse(HttpStatus.OK, transactions.stream().filter(transaction -> !transaction.isDeleted()).map(Transaction::convertToDTO).collect(Collectors.toList()));
+        GenericResponse<List<TransactionDTO>> gr = mapToGenericResponse(HttpStatus.OK, transactions.stream().filter(transaction -> !transaction.isDeleted()).map(Transaction::convertToDTO).toList());
         return ResponseEntity.ok().body(gr);
     }
 
@@ -134,5 +132,24 @@ public class TransactionController {
             return ResponseEntity.ok().body(gr);
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping(path = "/after/{date}/{offset}/{size}")
+    public ResponseEntity<GenericResponse<List<TransactionDTO>>> getTransactionsAfterDate(@PathVariable("date") String date, @PathVariable("offset") int offset, @PathVariable("size") int size) {
+        long d = Long.parseLong(date);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        List<Transaction> transactions = transactionService.getAllTransactionForUserAfterDate(user, d, offset, size);
+        GenericResponse<List<TransactionDTO>> gr = mapToGenericResponse(HttpStatus.OK, transactions.stream().filter(transaction -> !transaction.isDeleted()).map(Transaction::convertToDTO).toList());
+        return ResponseEntity.ok().body(gr);
+    }
+
+    @GetMapping(path="/{offset}/{size}")
+    public ResponseEntity<GenericResponse<List<TransactionDTO>>> getTransactionsForDate(@PathVariable("offset") int offset, @PathVariable("size") int size) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        List<Transaction> transactions = transactionService.getAllTransactionForUserPerPage(user, offset, size);
+        GenericResponse<List<TransactionDTO>> gr = mapToGenericResponse(HttpStatus.OK, transactions.stream().filter(transaction -> !transaction.isDeleted()).map(Transaction::convertToDTO).toList());
+        return ResponseEntity.ok().body(gr);
     }
 }

@@ -20,12 +20,12 @@ public class TransactionSettingsService {
     }
 
     public TransactionSettings getTransactionSettings(User user){
-        log.info("TransactionSettingsService: createTransactionSettings()");
+        log.info("TransactionSettingsService: getTransactionSettings()");
         return settingsRepository.findByUser(user).orElse(null);
     }
 
     public TransactionSettings getTransactionSettingsById(Long id){
-        log.info("TransactionSettingsService: createTransactionSettings()");
+        log.info("TransactionSettingsService: getTransactionSettingsById()");
         return settingsRepository.findById(id).orElse(null);
     }
 
