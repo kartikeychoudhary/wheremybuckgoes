@@ -93,11 +93,20 @@ public class VisualizeService {
         };
     }
 
+    private String getDimensionKey(String dimension, Transaction transaction, String timeFrame){
+        return switch (dimension){
+            case "category" -> transaction.getCategory();
+            case "account" -> transaction.getAccount();
+            case "transactionType" -> this.getTimeFrameUniqueKey(timeFrame, transaction.getCreatedDate());
+            default -> null;
+        };
+    }
+
     private JSONObject processChart(String timeFrame, String dimension, String function, List<Transaction> transactions){
         Map<String, Map<String, List<Long>>> map = new LinkedHashMap<>();
-        if(dimension.equals("transactionType")){
+        if(dimension.equals("transactionType") || dimension.equals("category") || dimension.equals("account")){
             transactions.forEach(transaction->{
-                String key = this.getTimeFrameUniqueKey(timeFrame, transaction.getCreatedDate());
+                String key = this.getDimensionKey(dimension, transaction, timeFrame);
                 Map<String, List<Long>> tempMap;
                 if(map.containsKey(key)){
                     tempMap = map.get(key);
