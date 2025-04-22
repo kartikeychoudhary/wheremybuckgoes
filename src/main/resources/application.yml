@@ -1,15 +1,51 @@
+# Application Configuration File
+# ------------------------------
+# This YAML configuration file defines the core settings for the WhereMyBuckGoes
+# expense tracking application. It contains environment-specific configurations
+# for database connections, security settings, and third-party service integrations.
+#
+# Author: Kartikey Choudhary (kartikey31choudhary@gmail.com)
+# Version: 1.0
+# Last Updated: 2024
+#
+# IMPORTANT SECURITY NOTES:
+# - Sensitive values are encrypted using Jasypt with the PBEWithMD5AndDES algorithm
+# - Environment variables must be set before application startup
+# - Use ENC() notation for encrypted values that reference environment variables
+#
+# CONFIGURATION SECTIONS:
+# 1. Logging: Log file settings
+# 2. Server: HTTP server configuration
+# 3. Spring: Core Spring Boot settings including database connection
+# 4. Gotify: Push notification service configuration
+# 5. GenAI: Generative AI integration settings
+# 6. Application: Custom application settings
+
+# Logging Configuration
+# --------------------
+# Defines log output location and format
+
 logging:
   file:
     name: application.log
+
+# Server Configuration
+# -------------------
+# HTTP server settings
 server:
   port: 5500
 
+# Spring Framework Configuration
+# -----------------------------
+# Core Spring Boot settings including database connection
 spring:
   application.name: wheremybuckgoes
+  # Database Connection Settings
   datasource:
     url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_DATABASE}
-    username: ENC(${DB_USER})
-    password: ENC(${DB_PASSWORD})
+    username: ENC(${DB_USER}) # Encrypted username from environment variable
+    password: ENC(${DB_PASSWORD}) # Encrypted password from environment variable
+  # JPA/Hibernate Configuration
   jpa:
     database-platform: org.hibernate.dialect.MySQLDialect
     hibernate:
@@ -21,30 +57,40 @@ spring:
         format_sql: true
         jdbc:
           batch_size: 100
+# Gotify Notification Service Configuration
+# ----------------------------------------
+# Settings for push notification delivery
 gotify:
   url: https://${GOTIFY_HOST}/message?token=
   api: ENC(${GOTIFY_KEY})
   enabled: ${GOTIFY_ENABLE}
-
+# Generative AI Integration Configuration
+# --------------------------------------
+# Settings for AI-powered transaction analysis
 genai:
   enabled: ${GENAI_ENABLE}
   provider: gemini
+  # Rate limiting settings
   restrictions:
     maxRequestInQueue: 10
     maxRequestInOneMinute: 5
     maxRequestInOneHour: 50
     maxRequestInOneDay: 100
+  # Gemini AI specific configuration
   gemini:
     API: ENC(${GEMINI_API})
     endPoint: https://generativelanguage.googleapis.com/v1beta/models/
     model: gemini-2.0-flash
 
+# Application-specific Configuration
+# ---------------------------------
+# Custom settings for application behavior
 application:
   register: true
   security:
     jwt:
-      prefix: Bearer
-      secret-key: ENC(${SECRET})
-      expiration: 86400000 # a day
+      prefix: Bearer # JWT token prefix in Authorization header
+      secret-key: ENC(${SECRET}) # Encrypted JWT signing key
+      expiration: 86400000 # Access token expiration (1 day in milliseconds)
       refresh-token:
-        expiration: 604800000 # 7 days
+        expiration: 604800000 # Refresh token expiration (7 days in milliseconds)

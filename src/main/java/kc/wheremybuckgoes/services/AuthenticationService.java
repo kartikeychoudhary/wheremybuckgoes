@@ -27,6 +27,37 @@ import java.util.HashMap;
 @RequiredArgsConstructor
 public class AuthenticationService {
 
+    /**
+     * Dependencies for the AuthenticationService class.
+     *
+     * This service manages user authentication, registration, and token handling,
+     * requiring several dependencies to perform its functions:
+     *
+     * @field userRepo Repository interface for user entity operations.
+     *        Provides methods to create, retrieve, and update user records in the database.
+     *        Used for user registration and lookup during authentication processes.
+     *
+     * @field tokenRepository Repository interface for token entity operations.
+     *        Handles the persistence of authentication tokens, including creation,
+     *        retrieval, and status updates (revocation/expiration).
+     *
+     * @field passwordEncoder Spring Security encoder for password hashing.
+     *        Provides secure one-way encryption of passwords during registration
+     *        and verification during authentication.
+     *
+     * @field jwtService Service for JWT (JSON Web Token) operations.
+     *        Handles token generation, validation, and extraction of claims
+     *        for both access and refresh tokens.
+     *
+     * @field authenticationManager Spring Security component for authentication.
+     *        Validates user credentials against stored user details and
+     *        handles authentication exceptions.
+     *
+     * @field isRegistrationEnabled Configuration flag from application properties.
+     *        Controls whether new user registration is permitted in the current
+     *        environment. Injected from the 'application.register' property.
+     */
+
     private final UserRepository userRepo;
 
     private final TokenRepository tokenRepository;
@@ -40,6 +71,43 @@ public class AuthenticationService {
     @Value("${application.register}")
     private boolean isRegistrationEnabled;
 
+
+    /**
+     * Registers a new user in the system.
+     *
+     * This method handles the user registration process by:
+     * 1. Checking if registration is currently enabled in the system
+     * 2. Verifying that the email is not already registered
+     * 3. Creating a new user with encoded password
+     * 4. Generating authentication tokens
+     * 5. Saving the user and token information
+     *
+     * The method implements security best practices including password encoding
+     * and JWT token generation for secure authentication.
+     *
+     * @param request The registration request containing user details:
+     *                - firstname: User's first name
+     *                - lastname: User's last name
+     *                - email: User's email address (used as unique identifier)
+     *                - password: User's password (will be encoded before storage)
+     *
+     * @return AuthenticationResponse object containing:
+     *         - accessToken: JWT token for API access
+     *         - refreshToken: Token to obtain new access tokens
+     *         - user: DTO with user information
+     *         - code: HTTP status code indicating result
+     *         - message: Description of any error (if applicable)
+     *
+     * @throws None directly, but may propagate exceptions from:
+     *         - Database operations
+     *         - Password encoding
+     *         - Token generation
+     *
+     * @apiNote Returns error responses with appropriate HTTP status codes:
+     *         - 405 METHOD_NOT_ALLOWED: If registration is disabled
+     *         - 409 CONFLICT: If the email is already registered
+     *         - 200 OK: If registration is successful
+     */
     public AuthenticationResponse register(RegisterRequest request) {
         if(!isRegistrationEnabled) {return AuthenticationResponse.builder().accessToken(null).accessToken(null).message("Registration of new members is not allowed.").code(HttpStatus.METHOD_NOT_ALLOWED).build();}
         User found = userRepo.findByEmail(request.getEmail()).orElse(null);
@@ -60,6 +128,37 @@ public class AuthenticationService {
         return AuthenticationResponse.builder().accessToken(jwtToken).refreshToken(refreshToken).user(user.convertToDTO()).code(HttpStatus.OK).build();
     }
 
+    /**
+     * Authenticates a user and generates access tokens.
+     *
+     * This method handles the user authentication process by:
+     * 1. Validating user credentials against the authentication manager
+     * 2. Retrieving the user from the database if credentials are valid
+     * 3. Generating a new JWT access token and refresh token
+     * 4. Revoking any existing tokens for the user
+     * 5. Saving the newly generated token
+     *
+     * The method implements secure authentication practices including:
+     * - Delegating credential validation to Spring Security's authentication manager
+     * - Token-based authentication with JWT
+     * - Token revocation for security
+     *
+     * @param request The authentication request containing:
+     *                - email: User's email address (username)
+     *                - password: User's password for verification
+     *
+     * @return AuthenticationResponse object containing:
+     *         - accessToken: JWT token for API access
+     *         - refreshToken: Token to obtain new access tokens
+     *         - user: DTO with user information
+     *         - code: HTTP status code (200 OK for successful authentication)
+     *
+     * @throws AuthenticationException If authentication fails due to invalid credentials
+     * @throws NoSuchElementException If the user is not found in the database
+     *
+     * @apiNote This method revokes all existing tokens for a user upon successful
+     *          authentication as a security measure to prevent token misuse.
+     */
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -76,6 +175,29 @@ public class AuthenticationService {
         return AuthenticationResponse.builder().accessToken(jwtToken).refreshToken(refreshToken).user(user.convertToDTO()).code(HttpStatus.OK).build();
     }
 
+
+    /**
+     * Saves a new authentication token for a user.
+     *
+     * This method creates and persists a token entity in the database that associates
+     * a JWT token with a specific user. The token is stored with metadata including
+     * its type, expiration status, and revocation status.
+     *
+     * @param user The user entity to associate with the token. This establishes
+     *             ownership of the token and enables user-specific token management.
+     *
+     * @param jwtToken The JWT token string value generated during authentication.
+     *                 This token will be used for subsequent API authorization.
+     *
+     * @implNote The token is created with the following default properties:
+     *           - Token type: BEARER (as defined in ApplicationConstant.TokenType)
+     *           - expired: false (token is initially valid)
+     *           - revoked: false (token has not been manually invalidated)
+     *
+     * @see Token The entity model representing the token in the database
+     * @see TokenRepository The repository interface for token persistence
+     * @see ApplicationConstant.TokenType Enumeration of supported token types
+     */
     private void saveUserToken(User user, String jwtToken) {
         var token = Token.builder()
                 .user(user)
@@ -87,6 +209,29 @@ public class AuthenticationService {
         tokenRepository.save(token);
     }
 
+    /**
+     * Revokes all valid tokens for a specific user.
+     *
+     * This method is responsible for invalidating all active authentication tokens
+     * associated with a user. It's typically called during security-sensitive operations
+     * such as password changes, account lockouts, or when a user logs out from all devices.
+     *
+     * The method performs the following steps:
+     * 1. Retrieves all valid (non-expired, non-revoked) tokens for the specified user
+     * 2. If no valid tokens exist, returns immediately
+     * 3. Marks each token as both expired and revoked
+     * 4. Persists the updated token statuses to the database in a batch operation
+     *
+     * @param user The user entity whose tokens should be revoked
+     *
+     * @implNote This method uses batch saving for efficiency when multiple tokens
+     *           need to be revoked. Both the expired and revoked flags are set to
+     *           ensure the tokens cannot be reused under any circumstances.
+     *
+     * @see Token The entity model representing tokens in the database
+     * @see TokenRepository#findAllValidTokenByUser Method to retrieve valid tokens
+     * @see TokenRepository#saveAll Method for batch saving token updates
+     */
     private void revokeAllUserTokens(User user) {
         var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
         if (validUserTokens.isEmpty())
@@ -98,6 +243,39 @@ public class AuthenticationService {
         tokenRepository.saveAll(validUserTokens);
     }
 
+
+    /**
+     * Refreshes the user's access token using a valid refresh token.
+     *
+     * This method handles the token refresh flow, allowing clients to obtain a new
+     * access token without requiring the user to re-authenticate with credentials.
+     * The process follows these steps:
+     *
+     * 1. Extracts the refresh token from the Authorization header
+     * 2. Validates the refresh token format and presence
+     * 3. Extracts the user email from the refresh token
+     * 4. Retrieves the user from the database
+     * 5. Verifies the refresh token's validity for the user
+     * 6. Generates a new access token
+     * 7. Revokes all existing tokens for security
+     * 8. Saves the new access token
+     * 9. Returns the new access token along with the existing refresh token
+     *
+     * @param request The HTTP request containing the Authorization header with the refresh token
+     * @param response The HTTP response (not directly used in the current implementation)
+     *
+     * @return ResponseEntity containing:
+     *         - On success (200 OK): AuthenticationResponse with new access token and existing refresh token
+     *         - On failure (400 Bad Request): When the token is missing, invalid, or expired
+     *
+     * @throws IOException If an I/O error occurs during processing
+     * @throws NoSuchElementException If the user associated with the token is not found
+     *
+     * @apiNote The method maintains security by:
+     *          - Requiring the refresh token to be sent in the Authorization header with Bearer prefix
+     *          - Validating the token's signature and expiration
+     *          - Revoking all existing tokens when issuing a new one
+     */
     public ResponseEntity<AuthenticationResponse> refreshToken(
             HttpServletRequest request,
             HttpServletResponse response
