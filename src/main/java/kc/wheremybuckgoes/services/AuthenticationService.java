@@ -29,7 +29,7 @@ public class AuthenticationService {
 
     /**
      * Dependencies for the AuthenticationService class.
-     *
+     * <p>
      * This service manages user authentication, registration, and token handling,
      * requiring several dependencies to perform its functions:
      *
@@ -74,14 +74,14 @@ public class AuthenticationService {
 
     /**
      * Registers a new user in the system.
-     *
+     * <p>
      * This method handles the user registration process by:
      * 1. Checking if registration is currently enabled in the system
      * 2. Verifying that the email is not already registered
      * 3. Creating a new user with encoded password
      * 4. Generating authentication tokens
      * 5. Saving the user and token information
-     *
+     * <p>
      * The method implements security best practices including password encoding
      * and JWT token generation for secure authentication.
      *
@@ -97,11 +97,6 @@ public class AuthenticationService {
      *         - user: DTO with user information
      *         - code: HTTP status code indicating result
      *         - message: Description of any error (if applicable)
-     *
-     * @throws None directly, but may propagate exceptions from:
-     *         - Database operations
-     *         - Password encoding
-     *         - Token generation
      *
      * @apiNote Returns error responses with appropriate HTTP status codes:
      *         - 405 METHOD_NOT_ALLOWED: If registration is disabled
@@ -130,14 +125,14 @@ public class AuthenticationService {
 
     /**
      * Authenticates a user and generates access tokens.
-     *
+     * <p>
      * This method handles the user authentication process by:
      * 1. Validating user credentials against the authentication manager
      * 2. Retrieving the user from the database if credentials are valid
      * 3. Generating a new JWT access token and refresh token
      * 4. Revoking any existing tokens for the user
      * 5. Saving the newly generated token
-     *
+     * <p>
      * The method implements secure authentication practices including:
      * - Delegating credential validation to Spring Security's authentication manager
      * - Token-based authentication with JWT
@@ -152,9 +147,6 @@ public class AuthenticationService {
      *         - refreshToken: Token to obtain new access tokens
      *         - user: DTO with user information
      *         - code: HTTP status code (200 OK for successful authentication)
-     *
-     * @throws AuthenticationException If authentication fails due to invalid credentials
-     * @throws NoSuchElementException If the user is not found in the database
      *
      * @apiNote This method revokes all existing tokens for a user upon successful
      *          authentication as a security measure to prevent token misuse.
@@ -178,7 +170,7 @@ public class AuthenticationService {
 
     /**
      * Saves a new authentication token for a user.
-     *
+     * <p>
      * This method creates and persists a token entity in the database that associates
      * a JWT token with a specific user. The token is stored with metadata including
      * its type, expiration status, and revocation status.
@@ -211,11 +203,11 @@ public class AuthenticationService {
 
     /**
      * Revokes all valid tokens for a specific user.
-     *
+     * <p>
      * This method is responsible for invalidating all active authentication tokens
      * associated with a user. It's typically called during security-sensitive operations
      * such as password changes, account lockouts, or when a user logs out from all devices.
-     *
+     * <p>
      * The method performs the following steps:
      * 1. Retrieves all valid (non-expired, non-revoked) tokens for the specified user
      * 2. If no valid tokens exist, returns immediately
@@ -246,11 +238,11 @@ public class AuthenticationService {
 
     /**
      * Refreshes the user's access token using a valid refresh token.
-     *
+     * <p>
      * This method handles the token refresh flow, allowing clients to obtain a new
      * access token without requiring the user to re-authenticate with credentials.
      * The process follows these steps:
-     *
+     * <p>
      * 1. Extracts the refresh token from the Authorization header
      * 2. Validates the refresh token format and presence
      * 3. Extracts the user email from the refresh token
@@ -269,7 +261,6 @@ public class AuthenticationService {
      *         - On failure (400 Bad Request): When the token is missing, invalid, or expired
      *
      * @throws IOException If an I/O error occurs during processing
-     * @throws NoSuchElementException If the user associated with the token is not found
      *
      * @apiNote The method maintains security by:
      *          - Requiring the refresh token to be sent in the Authorization header with Bearer prefix
