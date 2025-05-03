@@ -4,7 +4,7 @@
       "role": "user",
       "parts": [
         {
-          "text": "Rs 1,23,858.29 spent on ICICI Bank Card XX1234 on 10-Apr-25 at HDFC LIFE INSUR. Avl Lmt: Rs 27,039.89. To dispute, call 18002662/SMS BLOCK 1234 to 9215676766. To convert this txn to EMI give a missed call on 9537667667. Know more about EMI conversion at icici.co/DUvfZI0QFMW"
+          "text": "Rs 1,23,858.29 spent on ICICI Bank Card XX1234 on 10-Apr-25 at HDFC LIFE INSUR. Avl Lmt: Rs 27,039.89. To dispute, call 18002662/SMS BLOCK 1234 to 9215676766. To convert this txn to EMI give a missed call on 9537667667. Know more about EMI conversion at icici.co/DUvfZI0QFMW SMS Received at :03 May 2025 11:16"
         }
       ]
     },
@@ -12,7 +12,7 @@
       "role": "model",
       "parts": [
         {
-          "text": "{\n  \"account\": \"XX1234\",\n  \"accountType\": \"CREDIT_CARD\",\n  \"amount\": 123858.29,\n  \"category\": \"INSURANCE\",\n  \"date\": \"10-Apr-25\",\n  \"spendAt\": \"HDFC LIFE INSUR\",\n  \"accountName\": \"ICICI Bank\",\n  \"type\": \"DEBIT\"\n}"
+          "text": "{\n  \"account\": \"XX1234\",\n  \"accountType\": \"CREDIT_CARD\",\n  \"amount\": 123858.29,\n  \"category\": \"INSURANCE\",\n  \"date\": \"10-Apr-25\",\n  \"spendAt\": \"HDFC LIFE INSUR\",\n  \"accountName\": \"ICICI Bank\",\n  \"type\": \"DEBIT\"\n, \"smsReceivedAt\": \"03 May 2025 11:16\"\n}"
         }
       ]
     },
@@ -20,7 +20,7 @@
       "role": "user",
       "parts": [
         {
-          "text": "Rs.310.00 spent on your SBI Credit Card ending with 5487 at ZEPTO MARKETPLACE PRIVA on 10-04-25 via UPI (Ref No. 123456789). Trxn. not done by you? Report at https://sbicard.com/Dispute"
+          "text": "Rs.310.00 spent on your SBI Credit Card ending with 5487 at ZEPTO MARKETPLACE PRIVA on 10-04-25 via UPI (Ref No. 123456789). Trxn. not done by you? Report at https://sbicard.com/Dispute SMS Received at :01 May 2025 19:16"
         }
       ]
     },
@@ -28,7 +28,7 @@
       "role": "model",
       "parts": [
         {
-          "text": "{\n  \"account\": \"5487\",\n  \"accountType\": \"CREDIT_CARD\",\n  \"amount\": 310.00,\n  \"category\": \"GROCERIES\",\n  \"date\": \"10-04-25\",\n  \"spendAt\": \"ZEPTO MARKETPLACE PRIVA\",\n  \"accountName\": \"SBI\",\n  \"mode\": \"UPI\",\n  \"type\": \"DEBIT\"\n}"
+          "text": "{\n  \"account\": \"5487\",\n  \"accountType\": \"CREDIT_CARD\",\n  \"amount\": 310.00,\n  \"category\": \"GROCERIES\",\n  \"date\": \"10-04-25\",\n  \"spendAt\": \"ZEPTO MARKETPLACE PRIVA\",\n  \"accountName\": \"SBI\",\n  \"mode\": \"UPI\",\n  \"type\": \"DEBIT\"\n, \"smsReceivedAt\": \"03 May 2025 19:16\"\n}"
         }
       ]
     },
@@ -36,7 +36,7 @@
       "role": "user",
       "parts": [
         {
-          "text": "INR 522.00 spent using ICICI Bank Card XX1234 on 09-Apr-25 on MC DONALDS. Avl Limit: INR 1,50,898.18. If not you, call 1800 2662/SMS BLOCK 1234 to 9215676766."
+          "text": "INR 522.00 spent using ICICI Bank Card XX1234 on 09-Apr-25 on MC DONALDS. Avl Limit: INR 1,50,898.18. If not you, call 1800 2662/SMS BLOCK 1234 to 9215676766. SMS Received at :01 Apr 2025 23:16"
         }
       ]
     },
@@ -44,7 +44,7 @@
       "role": "model",
       "parts": [
         {
-          "text": "{\n  \"account\": \"XX1234\",\n  \"accountType\": \"CREDIT_CARD\",\n  \"amount\": 522.00,\n  \"category\": \"FOOD\",\n  \"date\": \"09-Apr-25\",\n  \"spendAt\": \"MC DONALDS\",\n  \"accountName\": \"ICICI Bank\",\n  \"type\": \"DEBIT\"\n}"
+          "text": "{\n  \"account\": \"XX1234\",\n  \"accountType\": \"CREDIT_CARD\",\n  \"amount\": 522.00,\n  \"category\": \"FOOD\",\n  \"date\": \"09-Apr-25\",\n  \"spendAt\": \"MC DONALDS\",\n  \"accountName\": \"ICICI Bank\",\n  \"type\": \"DEBIT\"\n, \"smsReceivedAt\": \"01 Apr 2025 23:16\"\n}"
         }
       ]
     },
@@ -52,7 +52,7 @@
       "role": "user",
       "parts": [
         {
-          "text": "Spent\nCard no. XX4321\nINR 149\n04-04-25 23:44:43\nGOOGLE PLAY\nAvl Lmt INR 106860.98\nSMS BLOCK 5142 to 919951860002, if not you - Axis Bank"
+          "text": "Spent\nCard no. XX4321\nINR 149\n04-04-25 23:44:43\nGOOGLE PLAY\nAvl Lmt INR 106860.98\nSMS BLOCK 5142 to 919951860002, if not you - Axis Bank SMS Received at :01 Mar 2025 17:23"
         }
       ]
     },
@@ -60,7 +60,7 @@
       "role": "model",
       "parts": [
         {
-          "text": "{\n  \"account\": \"XX4321\",\n  \"accountType\": \"CREDIT_CARD\",\n  \"amount\": 149.00,\n  \"category\": \"SUBSCRIPTION\",\n  \"date\": \"04-04-25\",\n  \"spendAt\": \"GOOGLE PLAY\",\n  \"accountName\": \"Axis Bank\",\n  \"type\": \"DEBIT\"\n}"
+          "text": "{\n  \"account\": \"XX4321\",\n  \"accountType\": \"CREDIT_CARD\",\n  \"amount\": 149.00,\n  \"category\": \"SUBSCRIPTION\",\n  \"date\": \"04-04-25\",\n  \"spendAt\": \"GOOGLE PLAY\",\n  \"accountName\": \"Axis Bank\",\n  \"type\": \"DEBIT\"\n, \"smsReceivedAt\": \"01 Mar 2025 17:23\"\n}"
         }
       ]
     },
@@ -68,7 +68,7 @@
       "role": "user",
       "parts": [
         {
-          "text": "Payment of INR 149.00 for Google Play will be auto debited via Axis Bank Card no. XX4321 by 04-04-25. To deactivate Auto Pay facility against ID XPk7jd5MnK, please log into https://ccm.axbk.in/AXISBK/TQPv62xJ\nTnC apply.\n"
+          "text": "Payment of INR 149.00 for Google Play will be auto debited via Axis Bank Card no. XX4321 by 04-04-25. To deactivate Auto Pay facility against ID XPk7jd5MnK, please log into https://ccm.axbk.in/AXISBK/TQPv62xJ\nTnC apply.\n SMS Received at :29 Jan 2025 18:25"
         }
       ]
     },
@@ -76,7 +76,7 @@
       "role": "model",
       "parts": [
         {
-          "text": "{\n  \"account\": \"XX4321\",\n  \"accountType\": \"CREDIT_CARD\",\n  \"amount\": 149.00,\n  \"category\": \"SUBSCRIPTION\",\n  \"date\": \"04-04-25\",\n  \"spendAt\": \"Google Play\",\n  \"accountName\": \"Axis Bank\",\n  \"type\": \"DEBIT\"\n}"
+          "text": "{\n  \"account\": \"XX4321\",\n  \"accountType\": \"CREDIT_CARD\",\n  \"amount\": 149.00,\n  \"category\": \"SUBSCRIPTION\",\n  \"date\": \"04-04-25\",\n  \"spendAt\": \"Google Play\",\n  \"accountName\": \"Axis Bank\",\n  \"type\": \"DEBIT\"\n, \"smsReceivedAt\": \"29 Jan 2025 18:25\"\n}"
         }
       ]
     },
@@ -84,7 +84,7 @@
       "role": "user",
       "parts": [
         {
-          "text": "INR 155.00 debited\nA/c no. XX2528\n02-04-25, 21:32:55\nUPI/P2M/12345646489/SHAUKEEN EXPRESS\nNot you? SMS BLOCKUPI Cust ID to 919951860002\nAxis Bank"
+          "text": "INR 155.00 debited\nA/c no. XX2528\n02-04-25, 21:32:55\nUPI/P2M/12345646489/SHAUKEEN EXPRESS\nNot you? SMS BLOCKUPI Cust ID to 919951860002\nAxis Bank SMS Received at :07 Feb 2025 12:23"
         }
       ]
     },
@@ -92,7 +92,7 @@
       "role": "model",
       "parts": [
         {
-          "text": "{\n  \"account\": \"XX2528\",\n  \"accountType\": \"BANK\",\n  \"amount\": 155.00,\n  \"category\": \"FOOD\",\n  \"date\": \"02-04-25\",\n  \"spendAt\": \"SHAUKEEN EXPRESS\",\n  \"accountName\": \"Axis Bank\",\n  \"mode\": \"UPI\",\n  \"type\": \"DEBIT\"\n}"
+          "text": "{\n  \"account\": \"XX2528\",\n  \"accountType\": \"BANK\",\n  \"amount\": 155.00,\n  \"category\": \"FOOD\",\n  \"date\": \"02-04-25\",\n  \"spendAt\": \"SHAUKEEN EXPRESS\",\n  \"accountName\": \"Axis Bank\",\n  \"mode\": \"UPI\",\n  \"type\": \"DEBIT\"\n, \"smsReceivedAt\": \"07 Feb 2025 12:23\"\n}"
         }
       ]
     },
@@ -100,7 +100,7 @@
       "role": "user",
       "parts": [
         {
-          "text": "INR 369.00 debited\nA/c no. XX2528\n02-04-25, 09:07:54\nUPI/P2M/3126354964/Dab Arcade\nNot you? SMS BLOCKUPI Cust ID to 919951860002\nAxis Bank"
+          "text": "INR 369.00 debited\nA/c no. XX2528\n02-04-25, 09:07:54\nUPI/P2M/3126354964/Dab Arcade\nNot you? SMS BLOCKUPI Cust ID to 919951860002\nAxis Bank SMS Received at :25 Dec 2024 09:11"
         }
       ]
     },
@@ -108,7 +108,7 @@
       "role": "model",
       "parts": [
         {
-          "text": "{\n  \"account\": \"XX2528\",\n  \"accountType\": \"BANK\",\n  \"amount\": 369.00,\n  \"category\": \"ENTERTAINMENT\",\n  \"date\": \"02-04-25\",\n  \"spendAt\": \"Dab Arcade\",\n  \"accountName\": \"Axis Bank\",\n  \"mode\": \"UPI\",\n  \"type\": \"DEBIT\"\n}"
+          "text": "{\n  \"account\": \"XX2528\",\n  \"accountType\": \"BANK\",\n  \"amount\": 369.00,\n  \"category\": \"ENTERTAINMENT\",\n  \"date\": \"02-04-25\",\n  \"spendAt\": \"Dab Arcade\",\n  \"accountName\": \"Axis Bank\",\n  \"mode\": \"UPI\",\n  \"type\": \"DEBIT\"\n, \"smsReceivedAt\": \"25 Dec 2024 09:11\"\n}"
         }
       ]
     },
