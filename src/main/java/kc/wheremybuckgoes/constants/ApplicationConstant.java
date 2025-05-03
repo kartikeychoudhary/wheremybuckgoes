@@ -1,6 +1,6 @@
 /**
  * Constants and enumerations for the WhereMyBuckGoes application.
- *
+ * <p>
  * This class serves as a centralized repository for application-wide constants,
  * enumerations, and static utility values. It provides standardized definitions
  * for various aspects of the application including:
@@ -11,7 +11,7 @@
  * - UI theme options
  * - Date formatting standards
  * - Error message constants
- *
+ * <p>
  * The class is designed as a non-instantiable utility class with only static
  * members, enforced by a private constructor.
  *

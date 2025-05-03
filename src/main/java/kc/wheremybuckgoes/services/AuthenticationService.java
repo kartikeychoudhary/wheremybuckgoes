@@ -3,6 +3,7 @@ package kc.wheremybuckgoes.services;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kc.wheremybuckgoes.constants.ApplicationConstant;
+import kc.wheremybuckgoes.modal.AuthenticationModifyRequest;
 import kc.wheremybuckgoes.modal.Token;
 import kc.wheremybuckgoes.modal.User;
 import kc.wheremybuckgoes.repositories.TokenRepository;
@@ -224,7 +225,7 @@ public class AuthenticationService {
      * @see TokenRepository#findAllValidTokenByUser Method to retrieve valid tokens
      * @see TokenRepository#saveAll Method for batch saving token updates
      */
-    private void revokeAllUserTokens(User user) {
+    public void revokeAllUserTokens(User user) {
         var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
         if (validUserTokens.isEmpty())
             return;
@@ -295,4 +296,27 @@ public class AuthenticationService {
         }
         return ResponseEntity.badRequest().build();
     }
+
+
+    public AuthenticationResponse changePassword(AuthenticationModifyRequest request) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getEmail(),
+                        request.getPassword()
+                )
+        );
+        User user = userRepo.findByEmail(request.getEmail()).orElse(null);
+        if(user != null){
+            user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+            userRepo.save(user);
+            request.setPassword(request.getNewPassword());
+            AuthenticationResponse response = this.authenticate(request);
+            response.setMessage("Password changed successfully.");
+            return response;
+        }
+        return AuthenticationResponse.builder().accessToken(null).accessToken(null).message("Username & Password combo is invalid.").code(HttpStatus.BAD_REQUEST).user(null).build();
+    }
+
+
+
 }

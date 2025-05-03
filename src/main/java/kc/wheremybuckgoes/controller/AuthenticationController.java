@@ -13,12 +13,16 @@ package kc.wheremybuckgoes.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import kc.wheremybuckgoes.modal.AuthenticationModifyRequest;
+import kc.wheremybuckgoes.modal.User;
 import kc.wheremybuckgoes.request.AuthenticationRequest;
 import kc.wheremybuckgoes.request.RegisterRequest;
 import kc.wheremybuckgoes.response.AuthenticationResponse;
 import kc.wheremybuckgoes.services.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -98,5 +102,26 @@ public class AuthenticationController {
             HttpServletResponse response
     ) throws IOException {
         return authenticationService.refreshToken(request, response);
+    }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<AuthenticationResponse> changePassword(
+            @RequestBody AuthenticationModifyRequest request
+    ){
+        if(request.getNewPassword() == null || request.getNewPassword().isEmpty()){
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(authenticationService.changePassword(request));
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<AuthenticationResponse> logout(
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        authenticationService.revokeAllUserTokens(user);
+        return ResponseEntity.ok().build();
     }
 }
