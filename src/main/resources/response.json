@@ -183,7 +183,8 @@
         "date",
         "accountType",
         "spendAt",
-        "category"
+        "category",
+        "smsReceivedAt"
       ]
     }
   }
